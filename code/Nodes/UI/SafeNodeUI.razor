@@ -1,0 +1,31 @@
+@using System;
+@using Sandbox;
+@using Sandbox.UI;
+@using Minesweeper.Nodes
+
+@namespace Minesweeper.Nodes.UI
+@attribute [StyleSheet]
+@inherits PanelComponent
+
+<root>
+	@{
+		if(Node is null)
+			return;
+
+		if(Node.State != NodeState.Opened)
+			return;
+
+		int neighborsCount = Node.BombNeighborsCount;
+		if(neighborsCount > 0)
+		{
+			<div class="info">@neighborsCount</div>
+		}
+	}
+</root>
+
+@code
+{
+	[Property] public SafeNode? Node { get; set; }
+
+	protected override int BuildHash() => HashCode.Combine(Node);
+}

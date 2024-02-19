@@ -1,0 +1,14 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+@namespace Minesweeper.Nodes.UI
+
+<root style="left:@(100f * Mouse.Position.x / Screen.Size.x)%; top:@(100f * Mouse.Position.y / Screen.Size.y)%;">
+
+</root>
+
+@code
+{
+	protected override int BuildHash() => Mouse.Position.GetHashCode();
+}

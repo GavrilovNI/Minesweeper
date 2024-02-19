@@ -1,0 +1,92 @@
+{
+  "RootObject": {
+    "Id": "83b12885-b401-4dd4-99dc-020df8d64911",
+    "Name": "bombnode",
+    "Tags": "node",
+    "Enabled": true,
+    "Components": [
+      {
+        "__type": "ModelRenderer",
+        "BodyGroups": 18446744073709551615,
+        "MaterialGroup": null,
+        "MaterialOverride": "materials/node.vmat",
+        "Model": "models/dev/box.vmdl",
+        "RenderType": "On",
+        "Tint": "1,1,1,1"
+      },
+      {
+        "__type": "BombNode",
+        "FlagPrefab": {
+          "_type": "gameobject",
+          "prefab": "prefabs/bombflag.prefab"
+        },
+        "FlagSpawnPosition": {
+          "_type": "gameobject",
+          "go": "249f5b84-3d0b-4f79-a0db-0ee10f3169d0"
+        },
+        "State": "Closed"
+      },
+      {
+        "__type": "BoxCollider",
+        "Center": "0,0,0",
+        "IsTrigger": false,
+        "Scale": "50,50,50",
+        "Static": false,
+        "Surface": null
+      },
+      {
+        "__type": "NodeColorer",
+        "BlockedColor": "0.5,0.5,0.5,1",
+        "ClosedColor": "0.5,0.5,0.5,1",
+        "DefaultColor": "0.5,0.5,0.5,1",
+        "ModelRenderer": {
+          "_type": "component",
+          "go": "83b12885-b401-4dd4-99dc-020df8d64911",
+          "component_type": "ModelRenderer"
+        },
+        "Node": {
+          "_type": "component",
+          "go": "83b12885-b401-4dd4-99dc-020df8d64911",
+          "component_type": "BombNode"
+        },
+        "OpenedColor": "1,0.33488,0.33488,1"
+      }
+    ],
+    "Children": [
+      {
+        "Id": "249f5b84-3d0b-4f79-a0db-0ee10f3169d0",
+        "Name": "FlagSpawnPoint",
+        "Position": "0,0,25",
+        "Enabled": true
+      },
+      {
+        "Id": "9e020b1b-42f5-43ae-978c-98270d17a15c",
+        "Name": "NodeOpener",
+        "Position": "0,0,25",
+        "Enabled": true,
+        "Components": [
+          {
+            "__type": "BoxCollider",
+            "Center": "0,0,5",
+            "IsTrigger": true,
+            "Scale": "50,50,10",
+            "Static": false,
+            "Surface": null
+          },
+          {
+            "__type": "NodesOpener",
+            "Node": {
+              "_type": "component",
+              "go": "83b12885-b401-4dd4-99dc-020df8d64911",
+              "component_type": "BombNode"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "__references": []
+}

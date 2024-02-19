@@ -1,0 +1,118 @@
+{
+  "RootObject": {
+    "Id": "130e6a48-4793-4297-8c65-ff6924f3e3cb",
+    "Name": "safenode",
+    "Tags": "node",
+    "Enabled": true,
+    "Components": [
+      {
+        "__type": "ModelRenderer",
+        "BodyGroups": 18446744073709551615,
+        "MaterialGroup": null,
+        "MaterialOverride": "materials/node.vmat",
+        "Model": "models/dev/box.vmdl",
+        "RenderType": "On",
+        "Tint": "1,1,1,1"
+      },
+      {
+        "__type": "SafeNode",
+        "BombNeighborsCount": 0,
+        "FlagPrefab": {
+          "_type": "gameobject",
+          "prefab": "prefabs/bombflag.prefab"
+        },
+        "FlagSpawnPosition": {
+          "_type": "gameobject",
+          "go": "c3b3cd8d-938b-48b3-a73f-21437939aa35"
+        },
+        "State": "Closed"
+      },
+      {
+        "__type": "BoxCollider",
+        "Center": "0,0,0",
+        "IsTrigger": false,
+        "Scale": "50,50,50",
+        "Static": false,
+        "Surface": null
+      },
+      {
+        "__type": "NodeColorer",
+        "BlockedColor": "0.5,0.5,0.5,1",
+        "ClosedColor": "0.5,0.5,0.5,1",
+        "DefaultColor": "0.5,0.5,0.5,1",
+        "ModelRenderer": {
+          "_type": "component",
+          "go": "130e6a48-4793-4297-8c65-ff6924f3e3cb",
+          "component_type": "ModelRenderer"
+        },
+        "Node": {
+          "_type": "component",
+          "go": "130e6a48-4793-4297-8c65-ff6924f3e3cb",
+          "component_type": "SafeNode"
+        },
+        "OpenedColor": "0.33333,1,0.33333,1"
+      }
+    ],
+    "Children": [
+      {
+        "Id": "c3b3cd8d-938b-48b3-a73f-21437939aa35",
+        "Name": "FlagSpawnPoint",
+        "Position": "0,0,25",
+        "Enabled": true
+      },
+      {
+        "Id": "3af24a8d-31c9-4d6b-a49d-ef0faaab8d30",
+        "Name": "NodeOpener",
+        "Position": "0,0,25",
+        "Enabled": true,
+        "Components": [
+          {
+            "__type": "BoxCollider",
+            "Center": "0,0,5",
+            "IsTrigger": true,
+            "Scale": "50,50,10",
+            "Static": false,
+            "Surface": null
+          },
+          {
+            "__type": "NodesOpener",
+            "Node": {
+              "_type": "component",
+              "go": "130e6a48-4793-4297-8c65-ff6924f3e3cb",
+              "component_type": "SafeNode"
+            }
+          }
+        ]
+      },
+      {
+        "Id": "00da1beb-d172-4245-8926-aca3188ab4c9",
+        "Name": "UI",
+        "Position": "0,0,25.01",
+        "Rotation": "0.7071068,0.00000003090862,0.7071068,-0.00000003090862",
+        "Enabled": true,
+        "Components": [
+          {
+            "__type": "WorldPanel",
+            "HorizontalAlign": "Center",
+            "LookAtCamera": false,
+            "PanelSize": "512,512",
+            "RenderScale": 1,
+            "VerticalAlign": "Center"
+          },
+          {
+            "__type": "SafeNodeUI",
+            "Node": {
+              "_type": "component",
+              "go": "130e6a48-4793-4297-8c65-ff6924f3e3cb",
+              "component_type": "SafeNode"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "__references": []
+}
