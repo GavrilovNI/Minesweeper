@@ -30,6 +30,8 @@ public class GameController : Component
     [Property] public World World { get; private set; } = null!;
     [Property] public bool Restart { get; private set; } = false;
     [Property] public GameObject Player { get; private set; } = null!;
+    [Property] public float TimeToTeleportPlayers { get; private set; } = 1f;
+    [Property] public float RestartingTime { get; private set; } = 2f;
 
     protected TaskCompletionSource? StartGameTaskCompletionSource { get; private set; } = null;
 
@@ -107,9 +109,25 @@ public class GameController : Component
             throw new InvalidOperationException("Game is already started");
 
         SetState(GameState.Starting);
+        await Task.Delay(TimeToTeleportPlayers.CeilToInt() * 1000);
+        BlockSpawn();
         RespawnPlayers();
+        await Task.Delay(RestartingTime.CeilToInt() * 1000);
         World.SpawnNodes();
+        UnblockSpawn();
         SetState(GameState.Started);
+    }
+
+    protected virtual void BlockSpawn()
+    {
+        foreach(var blocker in Scene.Components.GetAll<SpawnBlocker>(FindMode.DisabledInSelfAndDescendants))
+            blocker.GameObject.Enabled = true;
+    }
+
+    protected virtual void UnblockSpawn()
+    {
+        foreach(var blocker in Scene.GetAllComponents<SpawnBlocker>())
+            blocker.GameObject.Enabled = false;
     }
 
     protected virtual void OnLost()

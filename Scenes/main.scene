@@ -232,7 +232,9 @@
             "go": "5d72c6bf-23e4-4b2a-8c48-2188bd4b7082"
           },
           "Restart": false,
+          "RestartingTime": 2,
           "State": "NotStarted",
+          "TimeToTeleportPlayers": 1,
           "World": {
             "_type": "component",
             "go": "8fed4404-8b27-41f8-83e3-0964f8820e39",
@@ -277,13 +279,13 @@
     {
       "Id": "b7310430-d668-485c-be7b-df838b7db18e",
       "Name": "SpawnPoints",
-      "Position": "-233.5859,-247.9161,221.6806",
+      "Position": "-500,100,0",
       "Enabled": true,
       "Children": [
         {
           "Id": "8b7e7bb5-4dc6-4a6e-8901-a165b3b7e9cd",
           "Name": "SpawnPoint",
-          "Position": "-175.3197,247.9161,-221.6806",
+          "Position": "0,0,0",
           "Enabled": true,
           "Components": [
             {
@@ -293,9 +295,9 @@
           ]
         },
         {
-          "Id": "01ca853d-cf47-4b5d-bbec-ff651fc3da40",
+          "Id": "d8d66e3e-9791-41f0-a2e4-5f3c423152c4",
           "Name": "SpawnPoint",
-          "Position": "-175.3197,350.3773,-221.6806",
+          "Position": "0,74.34131,0",
           "Enabled": true,
           "Components": [
             {
@@ -305,9 +307,9 @@
           ]
         },
         {
-          "Id": "0ff82b0a-bb86-439b-b924-cd2871b7bfa1",
+          "Id": "9e0b6285-9e73-4df7-9b7b-01ea1dc4bb04",
           "Name": "SpawnPoint",
-          "Position": "-175.3197,479.5938,-221.6806",
+          "Position": "0,154.6699,0",
           "Enabled": true,
           "Components": [
             {
@@ -317,9 +319,9 @@
           ]
         },
         {
-          "Id": "c4eb0d53-534f-44f7-acc0-f72242f4de90",
+          "Id": "819727c9-4e03-45c1-9b3a-b7220ff4cf71",
           "Name": "SpawnPoint",
-          "Position": "-175.3197,643.0083,-221.6806",
+          "Position": "0,233.6085,0",
           "Enabled": true,
           "Components": [
             {
@@ -329,14 +331,147 @@
           ]
         },
         {
-          "Id": "cb27afdc-8c4b-4499-bc52-e395f7f51d70",
+          "Id": "a213313d-abe4-42ca-baec-9e5541ba1c6d",
           "Name": "SpawnPoint",
-          "Position": "-175.3197,791.881,-221.6806",
+          "Position": "0,301.6385,0",
           "Enabled": true,
           "Components": [
             {
               "__type": "SpawnPoint",
               "Color": "0.8902,0.31765,0.05098,1"
+            }
+          ]
+        },
+        {
+          "Id": "e7adbe3d-9172-4e67-8bb6-f72604d77626",
+          "Name": "SpawnPoint",
+          "Position": "0,367.3969,0",
+          "Enabled": true,
+          "Components": [
+            {
+              "__type": "SpawnPoint",
+              "Color": "0.8902,0.31765,0.05098,1"
+            }
+          ]
+        },
+        {
+          "Id": "8efca70e-a2c2-4be3-b7b5-80ded69aee0b",
+          "Name": "SpawnBlocker",
+          "Position": "0,0,0",
+          "Enabled": true,
+          "Components": [
+            {
+              "__type": "SpawnBlocker"
+            }
+          ],
+          "Children": [
+            {
+              "Id": "1dfe618f-3d15-4a90-9652-e27d814192e3",
+              "Name": "Cube",
+              "Position": "0,-75,75",
+              "Scale": "5,0.2,3",
+              "Enabled": true,
+              "Components": [
+                {
+                  "__type": "ModelRenderer",
+                  "__enabled": false,
+                  "BodyGroups": 18446744073709551615,
+                  "MaterialGroup": null,
+                  "MaterialOverride": null,
+                  "Model": "models/dev/box.vmdl",
+                  "RenderType": "On",
+                  "Tint": "1,1,1,1"
+                },
+                {
+                  "__type": "BoxCollider",
+                  "Center": "0,0,0",
+                  "IsTrigger": false,
+                  "Scale": "50,50,50",
+                  "Static": false,
+                  "Surface": null
+                }
+              ]
+            },
+            {
+              "Id": "37b81a57-f949-4499-9038-9a337386a39f",
+              "Name": "Cube",
+              "Position": "0,435,75",
+              "Scale": "5,0.2799999,3",
+              "Enabled": true,
+              "Components": [
+                {
+                  "__type": "ModelRenderer",
+                  "__enabled": false,
+                  "BodyGroups": 18446744073709551615,
+                  "MaterialGroup": null,
+                  "MaterialOverride": null,
+                  "Model": "models/dev/box.vmdl",
+                  "RenderType": "On",
+                  "Tint": "1,1,1,1"
+                },
+                {
+                  "__type": "BoxCollider",
+                  "Center": "0,0,0",
+                  "IsTrigger": false,
+                  "Scale": "50,50,50",
+                  "Static": false,
+                  "Surface": null
+                }
+              ]
+            },
+            {
+              "Id": "3ead99f2-6d4d-4ead-9096-c67966920044",
+              "Name": "Cube",
+              "Position": "120,180,75",
+              "Scale": "0.2,10,3",
+              "Enabled": true,
+              "Components": [
+                {
+                  "__type": "ModelRenderer",
+                  "__enabled": false,
+                  "BodyGroups": 18446744073709551615,
+                  "MaterialGroup": null,
+                  "MaterialOverride": null,
+                  "Model": "models/dev/box.vmdl",
+                  "RenderType": "On",
+                  "Tint": "1,1,1,1"
+                },
+                {
+                  "__type": "BoxCollider",
+                  "Center": "0,0,0",
+                  "IsTrigger": false,
+                  "Scale": "50,50,50",
+                  "Static": false,
+                  "Surface": null
+                }
+              ]
+            },
+            {
+              "Id": "a27cdf0d-0a02-4d97-b9bd-e3bd71b0d580",
+              "Name": "Cube",
+              "Position": "-120,180,75",
+              "Scale": "0.2,10,3",
+              "Enabled": true,
+              "Components": [
+                {
+                  "__type": "ModelRenderer",
+                  "__enabled": false,
+                  "BodyGroups": 18446744073709551615,
+                  "MaterialGroup": null,
+                  "MaterialOverride": null,
+                  "Model": "models/dev/box.vmdl",
+                  "RenderType": "On",
+                  "Tint": "1,1,1,1"
+                },
+                {
+                  "__type": "BoxCollider",
+                  "Center": "0,0,0",
+                  "IsTrigger": false,
+                  "Scale": "50,50,50",
+                  "Static": false,
+                  "Surface": null
+                }
+              ]
             }
           ]
         }
@@ -366,6 +501,6 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-02-19T17:41:04.7075649\u002B01:00",
+  "LastSaved": "2024-02-19T18:31:39.9805557\u002B01:00",
   "__references": []
 }
