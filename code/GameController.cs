@@ -108,8 +108,11 @@ public class GameController : Component
         if(State == GameState.Starting || State == GameState.Started)
             throw new InvalidOperationException("Game is already started");
 
+        var firstStart = State == GameState.NotStarted;
+
         SetState(GameState.Starting);
-        await Task.Delay(TimeToTeleportPlayers.CeilToInt() * 1000);
+        if(!firstStart)
+            await Task.Delay(TimeToTeleportPlayers.CeilToInt() * 1000);
         BlockSpawn();
         RespawnPlayers();
         await Task.Delay(RestartingTime.CeilToInt() * 1000);
