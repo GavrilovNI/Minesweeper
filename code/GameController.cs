@@ -8,6 +8,18 @@ namespace Minesweeper;
 
 public class GameController : Component
 {
+    private static GameController? _instance = null;
+    public static GameController? Instance
+    {
+        get
+        {
+            if(_instance.IsValid())
+                return _instance;
+            return null;
+        }
+        private set => _instance = value;
+    }
+
     [Property] public GameState State { get; private set; } = GameState.NotStarted;
     [Property] public World World { get; private set; } = null!;
     [Property] public bool Restart { get; private set; } = false;
@@ -17,6 +29,16 @@ public class GameController : Component
 
     protected override void OnEnabled()
     {
+        if(Instance.IsValid() && Instance != this)
+        {
+            Log.Warning($"{nameof(Scene)} {Scene} has to much instances of {nameof(GameController)}. Destroying this...");
+            Destroy();
+            return;
+        }
+
+        if(!Scene.IsEditor)
+            Instance = this;
+
         World.Lost += OnLost;
         World.Won += OnWon;
     }
