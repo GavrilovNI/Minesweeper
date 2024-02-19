@@ -132,12 +132,18 @@ public class GameController : Component
 
     protected virtual void OnOpenedBomb()
     {
+        if(State != GameState.Started)
+            return;
+
         SetState(GameState.Finished);
         _ = StartGame();
     }
 
     protected virtual void OnOpenedAllSafeNodes()
     {
+        if(State != GameState.Started)
+            return;
+
         SetState(GameState.Finished);
         _ = StartGame();
     }
