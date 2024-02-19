@@ -29,7 +29,6 @@ public class GameController : Component
 
     [Property] public World World { get; private set; } = null!;
     [Property] public bool Restart { get; private set; } = false;
-    [Property] public GameObject Player { get; private set; } = null!;
     [Property] public float TimeToTeleportPlayers { get; private set; } = 1f;
     [Property] public float RestartingTime { get; private set; } = 2f;
 
@@ -86,7 +85,7 @@ public class GameController : Component
     }
     protected virtual void RespawnPlayer(Player player, SpawnPoint spawnPoint)
     {
-        Player.Transform.World = spawnPoint.Transform.World;
+        player.Transform.World = spawnPoint.Transform.World;
     }
 
     protected virtual void RespawnPlayers()

@@ -227,10 +227,6 @@
       "Components": [
         {
           "__type": "GameController",
-          "Player": {
-            "_type": "gameobject",
-            "go": "5d72c6bf-23e4-4b2a-8c48-2188bd4b7082"
-          },
           "Restart": false,
           "RestartingTime": 2,
           "State": "NotStarted",
@@ -468,6 +464,6 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-02-19T18:31:39.9805557\u002B01:00",
+  "LastSaved": "2024-02-19T19:29:19.1135702\u002B01:00",
   "__references": []
 }
