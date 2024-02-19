@@ -22,8 +22,9 @@ public abstract class Node : Component
 
     public bool IsChangingState { get; private set; } = false;
 
+    private NodeState _startingState;
 
-    public void Inititialize(World world, Vector2Int position)
+    public void Inititialize(World world, Vector2Int position, NodeState startingState = NodeState.Closed)
     {
         if(Initialized)
             throw new InvalidOperationException("Node is already inititialized");
@@ -31,6 +32,7 @@ public abstract class Node : Component
         World = world;
         Position = position;
         OnInititialize();
+        _startingState = startingState;
     }
 
     protected sealed override void OnStart()
@@ -39,6 +41,7 @@ public abstract class Node : Component
             throw new InvalidOperationException("Node should be initialized before OnStart");
         Tags.Add("node");
         OnStartInternal();
+        SetState(_startingState);
     }
 
     protected virtual void OnStartInternal()
