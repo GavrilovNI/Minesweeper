@@ -19,8 +19,8 @@ public class World : Component
     [Property] protected int OpenedNodesCount { get; private set; } = 0;
     [Property] protected int SafeNodesCount { get; private set; } = 0;
 
-    public event Action? Lost;
-    public event Action? Won;
+    public event Action? OpenedBomb;
+    public event Action? OpenedAllSafeNodes;
 
     protected readonly Dictionary<Vector2Int, Node> Nodes = new();
 
@@ -155,26 +155,26 @@ public class World : Component
                     return;
                 }
 
-                OnLost();
+                OnOpenedBomb();
                 return;
             }
 
             if(OpenedNodesCount == SafeNodesCount)
             {
-                OnWon();
+                OnOpenedAllSafeNodes();
                 return;
             }
         }
     }
 
-    protected virtual void OnLost()
+    protected virtual void OnOpenedBomb()
     {
-        Lost?.Invoke();
+        OpenedBomb?.Invoke();
     }
 
-    protected virtual void OnWon()
+    protected virtual void OnOpenedAllSafeNodes()
     {
-        Won?.Invoke();
+        OpenedAllSafeNodes?.Invoke();
     }
 
     public Node? GetNode(Vector2Int position) => Nodes!.GetValueOrDefault(position, null);

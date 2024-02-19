@@ -47,14 +47,14 @@ public class GameController : Component
         if(!Scene.IsEditor)
             Instance = this;
 
-        World.Lost += OnLost;
-        World.Won += OnWon;
+        World.OpenedBomb += OnOpenedBomb;
+        World.OpenedAllSafeNodes += OnOpenedAllSafeNodes;
     }
 
     protected override void OnDisabled()
     {
-        World.Lost -= OnLost;
-        World.Won -= OnWon;
+        World.OpenedBomb -= OnOpenedBomb;
+        World.OpenedAllSafeNodes -= OnOpenedAllSafeNodes;
     }
 
     protected override void OnStart()
@@ -130,13 +130,13 @@ public class GameController : Component
             blocker.GameObject.Enabled = false;
     }
 
-    protected virtual void OnLost()
+    protected virtual void OnOpenedBomb()
     {
         SetState(GameState.Finished);
         _ = StartGame();
     }
 
-    protected virtual void OnWon()
+    protected virtual void OnOpenedAllSafeNodes()
     {
         SetState(GameState.Finished);
         _ = StartGame();
