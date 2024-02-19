@@ -1,4 +1,5 @@
 ﻿using Minesweeper.Mth;
+using Minesweeper.Nodes;
 using Minesweeper.Players;
 using Sandbox;
 using System;
@@ -20,7 +21,12 @@ public class GameController : Component
         private set => _instance = value;
     }
 
+    public delegate void StateChangedDelegate(GameState oldState, GameState newState);
+    public static event StateChangedDelegate? StateChanged;
+
     [Property] public GameState State { get; private set; } = GameState.NotStarted;
+    public bool IsChangingState { get; private set; } = false;
+
     [Property] public World World { get; private set; } = null!;
     [Property] public bool Restart { get; private set; } = false;
     [Property] public GameObject Player { get; private set; } = null!;
@@ -51,8 +57,20 @@ public class GameController : Component
 
     protected override void OnStart()
     {
-        State = GameState.NotStarted;
+        SetState(GameState.NotStarted);
         _ = StartGame();
+    }
+
+    protected virtual void SetState(GameState state)
+    {
+        if(IsChangingState)
+            throw new InvalidOperationException("Can't change node state when state is in changing process");
+
+        IsChangingState = true;
+        var oldState = State;
+        State = state;
+        StateChanged?.Invoke(oldState, state);
+        IsChangingState = false;
     }
 
     protected override void OnUpdate()
@@ -60,7 +78,7 @@ public class GameController : Component
         if(Restart)
         {
             Restart = false;
-            State = GameState.NotStarted;
+            SetState(GameState.NotStarted);
             _ = StartGame();
         }
     }
@@ -88,22 +106,21 @@ public class GameController : Component
         if(State == GameState.Starting || State == GameState.Started)
             throw new InvalidOperationException("Game is already started");
 
-        State = GameState.Starting;
-
+        SetState(GameState.Starting);
         RespawnPlayers();
         World.SpawnNodes();
-        State = GameState.Started;
+        SetState(GameState.Started);
     }
 
     protected virtual void OnLost()
     {
-        State = GameState.Finished;
+        SetState(GameState.Finished);
         _ = StartGame();
     }
 
     protected virtual void OnWon()
     {
-        State = GameState.Finished;
+        SetState(GameState.Finished);
         _ = StartGame();
     }
 
