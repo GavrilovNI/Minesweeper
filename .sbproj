@@ -1,7 +1,7 @@
 {
   "Title": "Minesweeping Together",
   "Type": "game",
-  "Org": "local",
+  "Org": "minesweeper",
   "Ident": "minesweeping_together",
   "Tags": null,
   "Schema": 1,
