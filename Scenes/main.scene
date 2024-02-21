@@ -106,6 +106,14 @@
           "Scale": "33,33,70",
           "Static": false,
           "Surface": null
+        },
+        {
+          "__type": "NodeBlocker",
+          "Camera": {
+            "_type": "component",
+            "go": "552f6b3d-9adf-45d1-8865-1d0df0fb1d69",
+            "component_type": "CameraComponent"
+          }
         }
       ],
       "Children": [
@@ -137,14 +145,6 @@
                   "Viewport": "0,0,1,1",
                   "ZFar": 10000,
                   "ZNear": 10
-                },
-                {
-                  "__type": "NodeBlocker",
-                  "Camera": {
-                    "_type": "component",
-                    "go": "552f6b3d-9adf-45d1-8865-1d0df0fb1d69",
-                    "component_type": "CameraComponent"
-                  }
                 }
               ]
             }
@@ -464,6 +464,6 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-02-19T19:29:19.1135702\u002B01:00",
+  "LastSaved": "2024-02-21T21:56:26.9806643\u002B01:00",
   "__references": []
 }
