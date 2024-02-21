@@ -95,7 +95,6 @@ public class World : Component
         var transform = new Transform(localPosition, Rotation.Identity, NodeScale);
         transform = Transform.Local.ToWorld(transform);
         var gameobject = nodePrefab.Clone(transform, GameObject, false, $"Node {position}");
-        gameobject.Enabled = false; // should calling here due to https://github.com/Facepunch/sbox-issues/issues/4871
         //gameobject.BreakFromPrefab();
 
         var node = gameobject.Components.Get<Node>(true);
