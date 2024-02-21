@@ -1,6 +1,6 @@
 {
   "RootObject": {
-    "Id": "15351e3e-eb18-494e-9e09-88301f49997f",
+    "Id": "67924cb6-96a7-48d8-839a-140bb200cb37",
     "Name": "safenode",
     "Tags": "node",
     "Enabled": true,
@@ -14,7 +14,7 @@
         },
         "FlagSpawnPosition": {
           "_type": "gameobject",
-          "go": "aaa13bff-ddef-4171-80d6-1b8d56537fa4"
+          "go": "650986d5-677d-4270-bb12-26ce44bfa383"
         },
         "State": "Closed"
       },
@@ -25,20 +25,28 @@
         "DefaultColor": "0.5,0.5,0.5,1",
         "ModelRenderer": {
           "_type": "component",
-          "go": "cb71727c-500e-4664-8e1c-84175cb94d33",
+          "go": "a971f126-a3c2-4a68-80d5-d59b65c68481",
           "component_type": "ModelRenderer"
         },
         "Node": {
           "_type": "component",
-          "go": "15351e3e-eb18-494e-9e09-88301f49997f",
+          "go": "67924cb6-96a7-48d8-839a-140bb200cb37",
           "component_type": "SafeNode"
         },
         "OpenedColor": "0.33333,1,0.33333,1"
+      },
+      {
+        "__type": "BoxCollider",
+        "Center": "0,0,7.5",
+        "IsTrigger": false,
+        "Scale": "50,50,5",
+        "Static": false,
+        "Surface": null
       }
     ],
     "Children": [
       {
-        "Id": "cb71727c-500e-4664-8e1c-84175cb94d33",
+        "Id": "a971f126-a3c2-4a68-80d5-d59b65c68481",
         "Name": "Model",
         "Position": "0,0,2.5",
         "Scale": "1,1,0.1",
@@ -52,19 +60,11 @@
             "Model": "models/dev/box.vmdl",
             "RenderType": "On",
             "Tint": "1,1,1,1"
-          },
-          {
-            "__type": "BoxCollider",
-            "Center": "0,0,0",
-            "IsTrigger": false,
-            "Scale": "50,50,50",
-            "Static": false,
-            "Surface": null
           }
         ]
       },
       {
-        "Id": "a1a97fd2-c442-4650-8522-c761b7f3488a",
+        "Id": "4dfac737-3ead-4122-aa21-08035a11888e",
         "Name": "NodeOpener",
         "Position": "0,0,5",
         "Enabled": true,
@@ -81,14 +81,14 @@
             "__type": "NodesOpener",
             "Node": {
               "_type": "component",
-              "go": "15351e3e-eb18-494e-9e09-88301f49997f",
+              "go": "67924cb6-96a7-48d8-839a-140bb200cb37",
               "component_type": "SafeNode"
             }
           }
         ]
       },
       {
-        "Id": "9b32763e-a0ef-4eac-b71b-8f34b73be485",
+        "Id": "4749b5fd-5a5b-43ab-b294-c8ab4fa15dc7",
         "Name": "UI",
         "Position": "0,0,5.01",
         "Rotation": "0.7071068,0.00000003090862,0.7071068,-0.00000003090862",
@@ -106,14 +106,14 @@
             "__type": "SafeNodeUI",
             "Node": {
               "_type": "component",
-              "go": "15351e3e-eb18-494e-9e09-88301f49997f",
+              "go": "67924cb6-96a7-48d8-839a-140bb200cb37",
               "component_type": "SafeNode"
             }
           }
         ]
       },
       {
-        "Id": "aaa13bff-ddef-4171-80d6-1b8d56537fa4",
+        "Id": "650986d5-677d-4270-bb12-26ce44bfa383",
         "Name": "FlagSpawnPoint",
         "Position": "0,0,5",
         "Enabled": true
