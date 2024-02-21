@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using Minesweeper.Players;
+using Sandbox;
 
 namespace Minesweeper.Nodes;
 
@@ -8,7 +9,7 @@ public class NodesOpener : Component, Component.ITriggerListener
 
     public void OnTriggerEnter(Collider other)
     {
-        if(!other.Tags.Has("player") || Node is null)
+        if(!other.Components.Get<Player>().IsValid() || Node is null)
             return;
         if(Node.State == NodeState.Closed)
             Node.SetState(NodeState.Opened);
