@@ -1,0 +1,110 @@
+{
+  "RootObject": {
+    "__guid": "6c5150b9-6b5e-44b1-a962-ba53ffc081c2",
+    "Name": "player",
+    "Tags": "player",
+    "Enabled": true,
+    "NetworkMode": 1,
+    "Components": [
+      {
+        "__type": "CharacterController",
+        "__guid": "2138d5c1-38dc-4817-94d2-dc2e9974294a",
+        "Acceleration": 10,
+        "Bounciness": 0.3,
+        "GroundAngle": 45,
+        "Height": 64,
+        "IgnoreLayers": "",
+        "Radius": 16,
+        "StepHeight": 18
+      },
+      {
+        "__type": "Player",
+        "__guid": "4ca4e1b4-7b35-486c-a382-3c9eac8c356b"
+      },
+      {
+        "__type": "PlayerController",
+        "__guid": "918844b3-c0df-48fc-8a74-2fa3b45ac7eb",
+        "AnimationHelper": {
+          "_type": "component",
+          "component_id": "9f155a7e-de81-4a4b-acae-829cd1d2ee40",
+          "go": "2b12209f-0bcd-4a2b-ba80-0be30433ae90",
+          "component_type": "CitizenAnimationHelper"
+        },
+        "Body": {
+          "_type": "gameobject",
+          "go": "2b12209f-0bcd-4a2b-ba80-0be30433ae90"
+        },
+        "Eye": {
+          "_type": "gameobject",
+          "go": "c9ac95de-21a6-4387-96c1-a1e951ba23d4"
+        },
+        "FirstPerson": false,
+        "Gravity": "0,0,800"
+      },
+      {
+        "__type": "BoxCollider",
+        "__guid": "ca724a1c-9318-440c-982a-f4cf2027f7a8",
+        "Center": "0,0,35",
+        "IsTrigger": false,
+        "Scale": "33,33,70",
+        "Static": false
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "c9ac95de-21a6-4387-96c1-a1e951ba23d4",
+        "Name": "Eye",
+        "Position": "0,0,63.41393",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "Children": [
+          {
+            "__guid": "f3c891e3-b723-4cf8-bb73-45220a1e1ba5",
+            "Name": "CameraPoint",
+            "Position": "-100,0,0",
+            "Enabled": true,
+            "NetworkMode": 2
+          }
+        ]
+      },
+      {
+        "__guid": "2b12209f-0bcd-4a2b-ba80-0be30433ae90",
+        "Name": "Body",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "Components": [
+          {
+            "__type": "SkinnedModelRenderer",
+            "__guid": "51708d66-acff-4506-905d-59bbb6e98174",
+            "BodyGroups": 341,
+            "CreateBoneObjects": false,
+            "Model": "models/citizen/citizen.vmdl",
+            "RenderType": "On",
+            "Tint": "1,1,1,1"
+          },
+          {
+            "__type": "CitizenAnimationHelper",
+            "__guid": "9f155a7e-de81-4a4b-acae-829cd1d2ee40",
+            "BodyWeight": 1,
+            "EyesWeight": 1,
+            "HeadWeight": 1,
+            "Height": 1,
+            "LookAtEnabled": false,
+            "Target": {
+              "_type": "component",
+              "component_id": "51708d66-acff-4506-905d-59bbb6e98174",
+              "go": "2b12209f-0bcd-4a2b-ba80-0be30433ae90",
+              "component_type": "SkinnedModelRenderer"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "ResourceVersion": 1,
+  "__version": 1,
+  "__references": []
+}

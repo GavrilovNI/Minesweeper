@@ -1,12 +1,14 @@
 {
   "RootObject": {
-    "Id": "cd861657-c830-4023-8aff-39d6c0a1353d",
+    "__guid": "cd861657-c830-4023-8aff-39d6c0a1353d",
     "Name": "bombnode",
     "Tags": "node",
     "Enabled": true,
+    "NetworkMode": 2,
     "Components": [
       {
         "__type": "BombNode",
+        "__guid": "d2c9e012-5b66-49ab-bee5-2711a32d2af8",
         "FlagPrefab": {
           "_type": "gameobject",
           "prefab": "prefabs/bombflag.prefab"
@@ -19,16 +21,19 @@
       },
       {
         "__type": "NodeColorer",
+        "__guid": "aaac1d70-45c8-4e9d-b5d9-6adc5c98b596",
         "BlockedColor": "0.5,0.5,0.5,1",
         "ClosedColor": "0.5,0.5,0.5,1",
         "DefaultColor": "0.5,0.5,0.5,1",
         "ModelRenderer": {
           "_type": "component",
+          "component_id": "6596c1a6-5505-4d22-8805-aeeb6a58dcce",
           "go": "501e3a28-8f83-43b9-b58a-5fe9b050582f",
           "component_type": "ModelRenderer"
         },
         "Node": {
           "_type": "component",
+          "component_id": "d2c9e012-5b66-49ab-bee5-2711a32d2af8",
           "go": "cd861657-c830-4023-8aff-39d6c0a1353d",
           "component_type": "BombNode"
         },
@@ -36,25 +41,26 @@
       },
       {
         "__type": "BoxCollider",
+        "__guid": "a67b0c1e-bce3-47b5-93ae-5f1851e92c53",
         "Center": "0,0,7.5",
         "IsTrigger": false,
         "Scale": "50,50,5",
-        "Static": false,
-        "Surface": null
+        "Static": false
       }
     ],
     "Children": [
       {
-        "Id": "501e3a28-8f83-43b9-b58a-5fe9b050582f",
+        "__guid": "501e3a28-8f83-43b9-b58a-5fe9b050582f",
         "Name": "Model",
         "Position": "0,0,2.5",
         "Scale": "1,1,0.1",
         "Enabled": true,
+        "NetworkMode": 2,
         "Components": [
           {
             "__type": "ModelRenderer",
+            "__guid": "6596c1a6-5505-4d22-8805-aeeb6a58dcce",
             "BodyGroups": 18446744073709551615,
-            "MaterialGroup": null,
             "MaterialOverride": "materials/node.vmat",
             "Model": "models/dev/box.vmdl",
             "RenderType": "On",
@@ -63,22 +69,25 @@
         ]
       },
       {
-        "Id": "6c9abc34-6fc8-4837-a52d-646466b0cf71",
+        "__guid": "6c9abc34-6fc8-4837-a52d-646466b0cf71",
         "Name": "NodeOpener",
         "Enabled": true,
+        "NetworkMode": 2,
         "Components": [
           {
             "__type": "BoxCollider",
+            "__guid": "403cc80b-854a-4932-b63d-68c6962330e1",
             "Center": "0,0,5",
             "IsTrigger": true,
             "Scale": "50,50,10",
-            "Static": false,
-            "Surface": null
+            "Static": false
           },
           {
             "__type": "NodesOpener",
+            "__guid": "a2a879ad-5a04-4358-b430-3ed1ad34791d",
             "Node": {
               "_type": "component",
+              "component_id": "d2c9e012-5b66-49ab-bee5-2711a32d2af8",
               "go": "cd861657-c830-4023-8aff-39d6c0a1353d",
               "component_type": "BombNode"
             }
@@ -86,15 +95,18 @@
         ]
       },
       {
-        "Id": "0ac9de08-a1e5-4a69-b17e-89b998b4cbed",
+        "__guid": "0ac9de08-a1e5-4a69-b17e-89b998b4cbed",
         "Name": "FlagSpawnPoint",
         "Position": "0,0,5",
-        "Enabled": true
+        "Enabled": true,
+        "NetworkMode": 2
       }
     ]
   },
   "ShowInMenu": false,
   "MenuPath": null,
   "MenuIcon": null,
+  "ResourceVersion": 1,
+  "__version": 1,
   "__references": []
 }

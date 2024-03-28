@@ -1,16 +1,18 @@
 {
-  "Id": "9f832399-4887-46b0-8f21-2ee284f538e2",
+  "__guid": "9f832399-4887-46b0-8f21-2ee284f538e2",
   "GameObjects": [
     {
-      "Id": "35338325-5c60-4a85-a13c-86299945d15d",
+      "__guid": "35338325-5c60-4a85-a13c-86299945d15d",
       "Name": "Sun",
       "Position": "36.2862,-146.058,236.9074",
       "Rotation": "-0.5,0.5,0.5,0.5",
       "Tags": "light_directional,light",
       "Enabled": true,
+      "NetworkMode": 2,
       "Components": [
         {
           "__type": "DirectionalLight",
+          "__guid": "b7760a05-a696-4239-8392-96b5921a2b24",
           "FogMode": "Enabled",
           "FogStrength": 1,
           "LightColor": "0.91373,0.98039,1,1",
@@ -20,12 +22,14 @@
       ]
     },
     {
-      "Id": "8fed4404-8b27-41f8-83e3-0964f8820e39",
+      "__guid": "8fed4404-8b27-41f8-83e3-0964f8820e39",
       "Name": "World",
       "Enabled": true,
+      "NetworkMode": 2,
       "Components": [
         {
           "__type": "World",
+          "__guid": "46312aa6-3a40-492d-be6c-2c0188304513",
           "BombChance": 0.2,
           "BombNodePrefab": {
             "_type": "gameobject",
@@ -39,37 +43,45 @@
             "prefab": "prefabs/safenode.prefab"
           },
           "SafeNodesCount": 0,
-          "Size": "8,8"
+          "Size": {
+            "Length": 11,
+            "LengthSquared": 128
+          }
         }
       ]
     },
     {
-      "Id": "c3350c44-7426-4dbe-a1f3-a68c9a2341bd",
+      "__guid": "c3350c44-7426-4dbe-a1f3-a68c9a2341bd",
       "Name": "MousePointer",
       "Position": "355.2937,324.9167,177.7099",
       "Enabled": true,
+      "NetworkMode": 2,
       "Components": [
         {
           "__type": "ScreenPanel",
+          "__guid": "04daff1c-d34d-4e1b-a2ac-b023ca255c47",
           "AutoScreenScale": true,
           "Opacity": 1,
           "Scale": 1,
           "ZIndex": 100
         },
         {
-          "__type": "MousePointerUI"
+          "__type": "MousePointerUI",
+          "__guid": "662e34c0-b8b3-4d3b-806c-ceb9b0b27dd5"
         }
       ]
     },
     {
-      "Id": "5d72c6bf-23e4-4b2a-8c48-2188bd4b7082",
+      "__guid": "5d72c6bf-23e4-4b2a-8c48-2188bd4b7082",
       "Name": "Player",
       "Position": "-165.3639,0,36.72807",
       "Tags": "player",
       "Enabled": true,
+      "NetworkMode": 2,
       "Components": [
         {
           "__type": "CharacterController",
+          "__guid": "c2d0d0a4-186a-48dd-8255-02c1881214ca",
           "Acceleration": 10,
           "Bounciness": 0.3,
           "GroundAngle": 45,
@@ -79,12 +91,15 @@
           "StepHeight": 18
         },
         {
-          "__type": "Player"
+          "__type": "Player",
+          "__guid": "fe9dbc86-aa6d-4cc7-9f5a-a1e0cc96b643"
         },
         {
           "__type": "PlayerController",
+          "__guid": "91759822-99c7-4fb3-b5fb-c293f7c07c2b",
           "AnimationHelper": {
             "_type": "component",
+            "component_id": "d5d47452-215d-4d16-a5aa-9a8ab9e5743b",
             "go": "81708171-f564-4491-a66d-ff18ef683a16",
             "component_type": "CitizenAnimationHelper"
           },
@@ -101,16 +116,18 @@
         },
         {
           "__type": "BoxCollider",
+          "__guid": "f62b338f-d368-4a8f-80f1-136e8f303699",
           "Center": "0,0,35",
           "IsTrigger": false,
           "Scale": "33,33,70",
-          "Static": false,
-          "Surface": null
+          "Static": false
         },
         {
           "__type": "NodeBlocker",
+          "__guid": "19b3a32a-70fa-474b-b6b6-81bc4e1708aa",
           "Camera": {
             "_type": "component",
+            "component_id": "5a2372d9-ac0b-4e8d-bcfd-6ef3cf1a7821",
             "go": "552f6b3d-9adf-45d1-8865-1d0df0fb1d69",
             "component_type": "CameraComponent"
           }
@@ -118,20 +135,23 @@
       ],
       "Children": [
         {
-          "Id": "f49bd2c9-424f-4f54-b03a-84c26c252abd",
+          "__guid": "f49bd2c9-424f-4f54-b03a-84c26c252abd",
           "Name": "Eye",
           "Position": "0,0,63.41393",
           "Enabled": true,
+          "NetworkMode": 2,
           "Children": [
             {
-              "Id": "552f6b3d-9adf-45d1-8865-1d0df0fb1d69",
+              "__guid": "552f6b3d-9adf-45d1-8865-1d0df0fb1d69",
               "Name": "Camera",
               "Position": "-200,-2.08,0",
               "Tags": "maincamera",
               "Enabled": true,
+              "NetworkMode": 2,
               "Components": [
                 {
                   "__type": "CameraComponent",
+                  "__guid": "5a2372d9-ac0b-4e8d-bcfd-6ef3cf1a7821",
                   "BackgroundColor": "0.33333,0.46275,0.52157,1",
                   "ClearFlags": "All",
                   "FieldOfView": 60,
@@ -151,25 +171,24 @@
           ]
         },
         {
-          "Id": "81708171-f564-4491-a66d-ff18ef683a16",
+          "__guid": "81708171-f564-4491-a66d-ff18ef683a16",
           "Name": "Body",
           "Position": "0,0,0",
           "Enabled": true,
+          "NetworkMode": 2,
           "Components": [
             {
               "__type": "SkinnedModelRenderer",
-              "AnimationGraph": null,
+              "__guid": "843e297a-85a3-444b-9d71-6693fa2a7642",
               "BodyGroups": 341,
-              "BoneMergeTarget": null,
               "CreateBoneObjects": false,
-              "MaterialGroup": null,
-              "MaterialOverride": null,
               "Model": "models/citizen/citizen.vmdl",
               "RenderType": "On",
               "Tint": "1,1,1,1"
             },
             {
               "__type": "CitizenAnimationHelper",
+              "__guid": "d5d47452-215d-4d16-a5aa-9a8ab9e5743b",
               "BodyWeight": 1,
               "EyeSource": {
                 "_type": "gameobject",
@@ -178,14 +197,10 @@
               "EyesWeight": 1,
               "HeadWeight": 1,
               "Height": 1,
-              "IkLeftFoot": null,
-              "IkLeftHand": null,
-              "IkRightFoot": null,
-              "IkRightHand": null,
-              "LookAt": null,
               "LookAtEnabled": false,
               "Target": {
                 "_type": "component",
+                "component_id": "843e297a-85a3-444b-9d71-6693fa2a7642",
                 "go": "81708171-f564-4491-a66d-ff18ef683a16",
                 "component_type": "SkinnedModelRenderer"
               }
@@ -195,44 +210,47 @@
       ]
     },
     {
-      "Id": "995ba1d4-89e3-4067-a10c-a661ce03eda5",
+      "__guid": "995ba1d4-89e3-4067-a10c-a661ce03eda5",
       "Name": "Plane",
       "Position": "500,500,0",
       "Scale": "100,100,1",
       "Enabled": true,
+      "NetworkMode": 2,
       "Components": [
         {
           "__type": "ModelRenderer",
+          "__guid": "9066bb1b-8c47-462d-b18b-e66f1242eadc",
           "BodyGroups": 18446744073709551615,
-          "MaterialGroup": null,
-          "MaterialOverride": null,
           "Model": "models/dev/plane.vmdl",
           "RenderType": "On",
           "Tint": "1,1,1,1"
         },
         {
           "__type": "PlaneCollider",
+          "__guid": "ea96e73e-f210-46e7-a38b-fe4bffad8e27",
           "Center": "0,0,0",
           "IsTrigger": false,
           "Scale": "100,100",
-          "Static": true,
-          "Surface": null
+          "Static": true
         }
       ]
     },
     {
-      "Id": "411c587e-81ef-4f10-b7ae-f73a65e49769",
+      "__guid": "411c587e-81ef-4f10-b7ae-f73a65e49769",
       "Name": "GameController",
       "Enabled": true,
+      "NetworkMode": 2,
       "Components": [
         {
           "__type": "GameController",
+          "__guid": "19c5c3ee-6652-492b-a038-a3cfa460edde",
           "Restart": false,
           "RestartingTime": 2,
           "State": "NotStarted",
           "TimeToTeleportPlayers": 1,
           "World": {
             "_type": "component",
+            "component_id": "46312aa6-3a40-492d-be6c-2c0188304513",
             "go": "8fed4404-8b27-41f8-83e3-0964f8820e39",
             "component_type": "World"
           }
@@ -240,199 +258,214 @@
       ]
     },
     {
-      "Id": "b7310430-d668-485c-be7b-df838b7db18e",
+      "__guid": "b7310430-d668-485c-be7b-df838b7db18e",
       "Name": "SpawnPoints",
       "Position": "-500,100,0",
       "Enabled": true,
+      "NetworkMode": 2,
       "Children": [
         {
-          "Id": "8b7e7bb5-4dc6-4a6e-8901-a165b3b7e9cd",
+          "__guid": "8b7e7bb5-4dc6-4a6e-8901-a165b3b7e9cd",
           "Name": "SpawnPoint",
           "Position": "0,0,0",
           "Enabled": true,
+          "NetworkMode": 2,
           "Components": [
             {
               "__type": "SpawnPoint",
+              "__guid": "b824d5d5-253c-42bc-81ad-c67373b9ca42",
               "Color": "0.8902,0.31765,0.05098,1"
             }
           ]
         },
         {
-          "Id": "d8d66e3e-9791-41f0-a2e4-5f3c423152c4",
+          "__guid": "d8d66e3e-9791-41f0-a2e4-5f3c423152c4",
           "Name": "SpawnPoint",
           "Position": "0,74.34131,0",
           "Enabled": true,
+          "NetworkMode": 2,
           "Components": [
             {
               "__type": "SpawnPoint",
+              "__guid": "9b4ecf11-4cb8-45cc-9426-14f588a87851",
               "Color": "0.8902,0.31765,0.05098,1"
             }
           ]
         },
         {
-          "Id": "9e0b6285-9e73-4df7-9b7b-01ea1dc4bb04",
+          "__guid": "9e0b6285-9e73-4df7-9b7b-01ea1dc4bb04",
           "Name": "SpawnPoint",
           "Position": "0,154.6699,0",
           "Enabled": true,
+          "NetworkMode": 2,
           "Components": [
             {
               "__type": "SpawnPoint",
+              "__guid": "c2fcceed-e98a-42ba-8075-b9520918472d",
               "Color": "0.8902,0.31765,0.05098,1"
             }
           ]
         },
         {
-          "Id": "819727c9-4e03-45c1-9b3a-b7220ff4cf71",
+          "__guid": "819727c9-4e03-45c1-9b3a-b7220ff4cf71",
           "Name": "SpawnPoint",
           "Position": "0,233.6085,0",
           "Enabled": true,
+          "NetworkMode": 2,
           "Components": [
             {
               "__type": "SpawnPoint",
+              "__guid": "756deedc-7994-42f8-84c2-957cd973b1db",
               "Color": "0.8902,0.31765,0.05098,1"
             }
           ]
         },
         {
-          "Id": "a213313d-abe4-42ca-baec-9e5541ba1c6d",
+          "__guid": "a213313d-abe4-42ca-baec-9e5541ba1c6d",
           "Name": "SpawnPoint",
           "Position": "0,301.6385,0",
           "Enabled": true,
+          "NetworkMode": 2,
           "Components": [
             {
               "__type": "SpawnPoint",
+              "__guid": "909f5a78-385a-483e-a5e6-c1632942cde7",
               "Color": "0.8902,0.31765,0.05098,1"
             }
           ]
         },
         {
-          "Id": "e7adbe3d-9172-4e67-8bb6-f72604d77626",
+          "__guid": "e7adbe3d-9172-4e67-8bb6-f72604d77626",
           "Name": "SpawnPoint",
           "Position": "0,367.3969,0",
           "Enabled": true,
+          "NetworkMode": 2,
           "Components": [
             {
               "__type": "SpawnPoint",
+              "__guid": "75227456-bdbf-442f-a900-0052b7b69b82",
               "Color": "0.8902,0.31765,0.05098,1"
             }
           ]
         },
         {
-          "Id": "8efca70e-a2c2-4be3-b7b5-80ded69aee0b",
+          "__guid": "8efca70e-a2c2-4be3-b7b5-80ded69aee0b",
           "Name": "SpawnBlocker",
           "Position": "0,0,0",
           "Enabled": true,
+          "NetworkMode": 2,
           "Components": [
             {
-              "__type": "SpawnBlocker"
+              "__type": "SpawnBlocker",
+              "__guid": "ff3d5c3e-10b3-4d23-a7d9-6804982c109b"
             }
           ],
           "Children": [
             {
-              "Id": "1dfe618f-3d15-4a90-9652-e27d814192e3",
+              "__guid": "1dfe618f-3d15-4a90-9652-e27d814192e3",
               "Name": "Cube",
               "Position": "0,-75,75",
               "Scale": "5,0.2,3",
               "Enabled": true,
+              "NetworkMode": 2,
               "Components": [
                 {
                   "__type": "ModelRenderer",
+                  "__guid": "9926111c-c884-41ac-aa69-e06a8e17ef08",
                   "__enabled": false,
                   "BodyGroups": 18446744073709551615,
-                  "MaterialGroup": null,
-                  "MaterialOverride": null,
                   "Model": "models/dev/box.vmdl",
                   "RenderType": "On",
                   "Tint": "1,1,1,1"
                 },
                 {
                   "__type": "BoxCollider",
+                  "__guid": "2dcd31e9-7b53-49c5-912f-1daefa399b1b",
                   "Center": "0,0,0",
                   "IsTrigger": false,
                   "Scale": "50,50,50",
-                  "Static": false,
-                  "Surface": null
+                  "Static": false
                 }
               ]
             },
             {
-              "Id": "37b81a57-f949-4499-9038-9a337386a39f",
+              "__guid": "37b81a57-f949-4499-9038-9a337386a39f",
               "Name": "Cube",
               "Position": "0,435,75",
               "Scale": "5,0.2799999,3",
               "Enabled": true,
+              "NetworkMode": 2,
               "Components": [
                 {
                   "__type": "ModelRenderer",
+                  "__guid": "1a4087d7-9c73-471b-85ce-b9b0b9bba37f",
                   "__enabled": false,
                   "BodyGroups": 18446744073709551615,
-                  "MaterialGroup": null,
-                  "MaterialOverride": null,
                   "Model": "models/dev/box.vmdl",
                   "RenderType": "On",
                   "Tint": "1,1,1,1"
                 },
                 {
                   "__type": "BoxCollider",
+                  "__guid": "6bc993f7-f903-4ee8-9340-875c8ddedec4",
                   "Center": "0,0,0",
                   "IsTrigger": false,
                   "Scale": "50,50,50",
-                  "Static": false,
-                  "Surface": null
+                  "Static": false
                 }
               ]
             },
             {
-              "Id": "3ead99f2-6d4d-4ead-9096-c67966920044",
+              "__guid": "3ead99f2-6d4d-4ead-9096-c67966920044",
               "Name": "Cube",
               "Position": "120,180,75",
               "Scale": "0.2,10,3",
               "Enabled": true,
+              "NetworkMode": 2,
               "Components": [
                 {
                   "__type": "ModelRenderer",
+                  "__guid": "aee8d598-81ae-4658-a70d-e0aa65a25be5",
                   "__enabled": false,
                   "BodyGroups": 18446744073709551615,
-                  "MaterialGroup": null,
-                  "MaterialOverride": null,
                   "Model": "models/dev/box.vmdl",
                   "RenderType": "On",
                   "Tint": "1,1,1,1"
                 },
                 {
                   "__type": "BoxCollider",
+                  "__guid": "48029a90-9613-4ee0-a948-324aa2f1f612",
                   "Center": "0,0,0",
                   "IsTrigger": false,
                   "Scale": "50,50,50",
-                  "Static": false,
-                  "Surface": null
+                  "Static": false
                 }
               ]
             },
             {
-              "Id": "a27cdf0d-0a02-4d97-b9bd-e3bd71b0d580",
+              "__guid": "a27cdf0d-0a02-4d97-b9bd-e3bd71b0d580",
               "Name": "Cube",
               "Position": "-120,180,75",
               "Scale": "0.2,10,3",
               "Enabled": true,
+              "NetworkMode": 2,
               "Components": [
                 {
                   "__type": "ModelRenderer",
+                  "__guid": "2482ec64-37f2-4a7a-a259-de11da81b2d3",
                   "__enabled": false,
                   "BodyGroups": 18446744073709551615,
-                  "MaterialGroup": null,
-                  "MaterialOverride": null,
                   "Model": "models/dev/box.vmdl",
                   "RenderType": "On",
                   "Tint": "1,1,1,1"
                 },
                 {
                   "__type": "BoxCollider",
+                  "__guid": "3a322e24-f0b3-4729-b4ae-7a4da6d273a6",
                   "Center": "0,0,0",
                   "IsTrigger": false,
                   "Scale": "50,50,50",
-                  "Static": false,
-                  "Surface": null
+                  "Static": false
                 }
               ]
             }
@@ -464,6 +497,8 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-02-21T21:56:26.9806643\u002B01:00",
+  "LastSaved": "2024-03-28T04:14:38.3463068\u002B01:00",
+  "ResourceVersion": 1,
+  "__version": 1,
   "__references": []
 }

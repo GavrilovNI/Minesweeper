@@ -1,12 +1,14 @@
 {
   "RootObject": {
-    "Id": "67924cb6-96a7-48d8-839a-140bb200cb37",
+    "__guid": "67924cb6-96a7-48d8-839a-140bb200cb37",
     "Name": "safenode",
     "Tags": "node",
     "Enabled": true,
+    "NetworkMode": 2,
     "Components": [
       {
         "__type": "SafeNode",
+        "__guid": "b821606f-a57e-49c1-b9cb-0add0da5ef86",
         "BombNeighborsCount": 0,
         "FlagPrefab": {
           "_type": "gameobject",
@@ -20,16 +22,19 @@
       },
       {
         "__type": "NodeColorer",
+        "__guid": "e8e251c6-5478-46aa-ab1e-ce13051054af",
         "BlockedColor": "0.5,0.5,0.5,1",
         "ClosedColor": "0.5,0.5,0.5,1",
         "DefaultColor": "0.5,0.5,0.5,1",
         "ModelRenderer": {
           "_type": "component",
+          "component_id": "83b05c5c-5a7f-4ffb-b366-154be345b18c",
           "go": "a971f126-a3c2-4a68-80d5-d59b65c68481",
           "component_type": "ModelRenderer"
         },
         "Node": {
           "_type": "component",
+          "component_id": "b821606f-a57e-49c1-b9cb-0add0da5ef86",
           "go": "67924cb6-96a7-48d8-839a-140bb200cb37",
           "component_type": "SafeNode"
         },
@@ -37,25 +42,26 @@
       },
       {
         "__type": "BoxCollider",
+        "__guid": "562fc5ac-5250-41ad-93e3-02d199abdeed",
         "Center": "0,0,7.5",
         "IsTrigger": false,
         "Scale": "50,50,5",
-        "Static": false,
-        "Surface": null
+        "Static": false
       }
     ],
     "Children": [
       {
-        "Id": "a971f126-a3c2-4a68-80d5-d59b65c68481",
+        "__guid": "a971f126-a3c2-4a68-80d5-d59b65c68481",
         "Name": "Model",
         "Position": "0,0,2.5",
         "Scale": "1,1,0.1",
         "Enabled": true,
+        "NetworkMode": 2,
         "Components": [
           {
             "__type": "ModelRenderer",
+            "__guid": "83b05c5c-5a7f-4ffb-b366-154be345b18c",
             "BodyGroups": 18446744073709551615,
-            "MaterialGroup": null,
             "MaterialOverride": "materials/node.vmat",
             "Model": "models/dev/box.vmdl",
             "RenderType": "On",
@@ -64,23 +70,26 @@
         ]
       },
       {
-        "Id": "4dfac737-3ead-4122-aa21-08035a11888e",
+        "__guid": "4dfac737-3ead-4122-aa21-08035a11888e",
         "Name": "NodeOpener",
         "Position": "0,0,5",
         "Enabled": true,
+        "NetworkMode": 2,
         "Components": [
           {
             "__type": "BoxCollider",
+            "__guid": "41781765-975d-453f-b351-246f2cbbe158",
             "Center": "0,0,5",
             "IsTrigger": true,
             "Scale": "50,50,10",
-            "Static": false,
-            "Surface": null
+            "Static": false
           },
           {
             "__type": "NodesOpener",
+            "__guid": "44a85183-ea9d-4f2e-8940-f7e763c4d971",
             "Node": {
               "_type": "component",
+              "component_id": "b821606f-a57e-49c1-b9cb-0add0da5ef86",
               "go": "67924cb6-96a7-48d8-839a-140bb200cb37",
               "component_type": "SafeNode"
             }
@@ -88,14 +97,16 @@
         ]
       },
       {
-        "Id": "4749b5fd-5a5b-43ab-b294-c8ab4fa15dc7",
+        "__guid": "4749b5fd-5a5b-43ab-b294-c8ab4fa15dc7",
         "Name": "UI",
         "Position": "0,0,5.01",
         "Rotation": "0.7071068,0.00000003090862,0.7071068,-0.00000003090862",
         "Enabled": true,
+        "NetworkMode": 2,
         "Components": [
           {
             "__type": "WorldPanel",
+            "__guid": "e8f664f9-e173-43e4-80f8-039dff72c9b1",
             "HorizontalAlign": "Center",
             "LookAtCamera": false,
             "PanelSize": "512,512",
@@ -104,8 +115,10 @@
           },
           {
             "__type": "SafeNodeUI",
+            "__guid": "5db15923-ded3-4f15-b20a-d5a77c93662f",
             "Node": {
               "_type": "component",
+              "component_id": "b821606f-a57e-49c1-b9cb-0add0da5ef86",
               "go": "67924cb6-96a7-48d8-839a-140bb200cb37",
               "component_type": "SafeNode"
             }
@@ -113,15 +126,18 @@
         ]
       },
       {
-        "Id": "650986d5-677d-4270-bb12-26ce44bfa383",
+        "__guid": "650986d5-677d-4270-bb12-26ce44bfa383",
         "Name": "FlagSpawnPoint",
         "Position": "0,0,5",
-        "Enabled": true
+        "Enabled": true,
+        "NetworkMode": 2
       }
     ]
   },
   "ShowInMenu": false,
   "MenuPath": null,
   "MenuIcon": null,
+  "ResourceVersion": 1,
+  "__version": 1,
   "__references": []
 }

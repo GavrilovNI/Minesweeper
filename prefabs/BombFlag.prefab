@@ -1,26 +1,28 @@
 {
   "RootObject": {
-    "Id": "c37d69ed-e188-4ce8-a1f3-47fe4107867a",
+    "__guid": "c37d69ed-e188-4ce8-a1f3-47fe4107867a",
     "Name": "bombflag",
     "Enabled": true,
+    "NetworkMode": 2,
     "Children": [
       {
-        "Id": "5585756d-3ba5-459a-8f2d-61f94f25b55f",
+        "__guid": "5585756d-3ba5-459a-8f2d-61f94f25b55f",
         "Name": "Model",
         "Enabled": true,
+        "NetworkMode": 2,
         "Children": [
           {
-            "Id": "fedfe89e-66fd-4cf5-ad19-bec5f6b2a9a1",
+            "__guid": "fedfe89e-66fd-4cf5-ad19-bec5f6b2a9a1",
             "Name": "Bottom",
             "Position": "0,0,2.5",
             "Scale": "0.5,0.5,0.05",
             "Enabled": true,
+            "NetworkMode": 2,
             "Components": [
               {
                 "__type": "ModelRenderer",
+                "__guid": "3e473147-6422-477d-b185-2588203b3b23",
                 "BodyGroups": 18446744073709551615,
-                "MaterialGroup": null,
-                "MaterialOverride": null,
                 "Model": "models/dev/box.vmdl",
                 "RenderType": "On",
                 "Tint": "1,1,1,1"
@@ -28,17 +30,17 @@
             ],
             "Children": [
               {
-                "Id": "46005291-d017-44dc-ae69-2d4ac38cec14",
+                "__guid": "46005291-d017-44dc-ae69-2d4ac38cec14",
                 "Name": "Stand",
                 "Position": "0,0,350",
                 "Scale": "0.1,0.1,14",
                 "Enabled": true,
+                "NetworkMode": 2,
                 "Components": [
                   {
                     "__type": "ModelRenderer",
+                    "__guid": "079a80bf-ac6b-4ad9-b609-54e18d41efbd",
                     "BodyGroups": 18446744073709551615,
-                    "MaterialGroup": null,
-                    "MaterialOverride": null,
                     "Model": "models/dev/box.vmdl",
                     "RenderType": "On",
                     "Tint": "1,1,1,1"
@@ -46,17 +48,17 @@
                 ],
                 "Children": [
                   {
-                    "Id": "78d49a5d-d71c-4079-a3a4-f93f8cae5c0b",
+                    "__guid": "78d49a5d-d71c-4079-a3a4-f93f8cae5c0b",
                     "Name": "Flag",
                     "Position": "160.0401,0,15.4594",
                     "Scale": "6,0.8,0.2857143",
                     "Enabled": true,
+                    "NetworkMode": 2,
                     "Components": [
                       {
                         "__type": "ModelRenderer",
+                        "__guid": "61409585-2900-476c-b0f8-6a6b9895edde",
                         "BodyGroups": 18446744073709551615,
-                        "MaterialGroup": null,
-                        "MaterialOverride": null,
                         "Model": "models/dev/box.vmdl",
                         "RenderType": "On",
                         "Tint": "1,1,1,1"
@@ -74,5 +76,7 @@
   "ShowInMenu": false,
   "MenuPath": null,
   "MenuIcon": null,
+  "ResourceVersion": 1,
+  "__version": 1,
   "__references": []
 }
