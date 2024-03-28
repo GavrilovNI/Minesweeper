@@ -115,7 +115,7 @@ public class GameController : Component
         BlockSpawn();
         RespawnPlayers();
         await Task.Delay(RestartingTime.CeilToInt() * 1000);
-        World.SpawnNodes();
+        await World.SpawnNodes();
         UnblockSpawn();
         SetState(GameState.Started);
     }

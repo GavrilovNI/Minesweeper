@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using Sandbox;
 using System.Linq;
 using Sandbox.UI;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Minesweeper;
 
@@ -27,6 +29,8 @@ public class World : Component
 
     protected readonly Dictionary<Vector2IntB, Node> Nodes = new();
 
+    protected CancellationTokenSource CancellationTokenSource { get; set; }
+
     public void Clear()
     {
         foreach(var position in Nodes.Keys.ToList())
@@ -40,6 +44,17 @@ public class World : Component
     protected override void OnAwake()
     {
         NodesParent ??= GameObject;
+    }
+
+    protected override void OnEnabled()
+    {
+        CancellationTokenSource = new();
+    }
+
+    protected override void OnDisabled()
+    {
+        CancellationTokenSource.Cancel();
+        CancellationTokenSource.Dispose();
     }
 
     protected virtual void NotifyNeighborsAboutUpdate(Vector2IntB position)
@@ -124,24 +139,25 @@ public class World : Component
         return node;
     }
 
-    public virtual void SpawnNodes()
+    public virtual async Task SpawnNodes()
     {
+        var token = CancellationTokenSource.Token;
+
         Clear();
         for(int x = 0; x < Size.x; ++x)
         {
             for(int y = 0; y < Size.y; ++y)
             {
+                if(token.IsCancellationRequested)
+                    return;
+
                 var position = new Vector2IntB(x, y);
                 var node = SpawnRandomNode(position, false);
                 ChangeOrAddNode(node, false);
+
+                await Task.Yield();
             }
         }
-
-        /*if(GetNode(Vector2IntB.Zero) is SafeNode)
-        {
-            var newNode = SpawnNode(BombNodePrefab, Vector2IntB.Zero, false);
-            ChangeOrAddNode(newNode);
-        }*/
 
         foreach(var (_, node) in Nodes)
             node.GameObject.Enabled = true;
