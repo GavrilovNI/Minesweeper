@@ -47,7 +47,7 @@
             "prefab": "prefabs/safenode.prefab"
           },
           "SafeNodesCount": 0,
-          "Size": "8,8"
+          "Size": "20,20"
         }
       ],
       "Children": [
@@ -56,6 +56,42 @@
           "Name": "Nodes",
           "Enabled": true,
           "NetworkMode": 2
+        },
+        {
+          "__guid": "e6bba52d-0f35-47bf-a631-198f803551e0",
+          "Name": "NodesUI",
+          "Position": "0,0,11",
+          "Rotation": "-0.5,-0.5,-0.5,0.5",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "WorldPanel",
+              "__guid": "ed613d7c-64df-42e0-8bc4-9c0498316906",
+              "HorizontalAlign": "Left",
+              "LookAtCamera": false,
+              "PanelSize": "2048,2048",
+              "RenderScale": 0.05,
+              "VerticalAlign": "Bottom"
+            },
+            {
+              "__type": "NodesUI",
+              "__guid": "6fb324dc-8201-4013-a1dc-815f71080ce6",
+              "UnitsPerUiUnit": 20,
+              "World": {
+                "_type": "component",
+                "component_id": "46312aa6-3a40-492d-be6c-2c0188304513",
+                "go": "8fed4404-8b27-41f8-83e3-0964f8820e39",
+                "component_type": "World"
+              },
+              "WorldPanel": {
+                "_type": "component",
+                "component_id": "ed613d7c-64df-42e0-8bc4-9c0498316906",
+                "go": "e6bba52d-0f35-47bf-a631-198f803551e0",
+                "component_type": "WorldPanel"
+              }
+            }
+          ]
         }
       ]
     },
@@ -506,7 +542,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-03-28T04:41:24.719456\u002B01:00",
+  "LastSaved": "2024-03-28T06:59:53.8447777\u002B01:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": []

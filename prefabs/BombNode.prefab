@@ -1,6 +1,6 @@
 {
   "RootObject": {
-    "__guid": "cd861657-c830-4023-8aff-39d6c0a1353d",
+    "__guid": "0297ca21-3841-4621-9d53-43b6a16b7be9",
     "Name": "bombnode",
     "Tags": "node",
     "Enabled": true,
@@ -8,41 +8,41 @@
     "Components": [
       {
         "__type": "BombNode",
-        "__guid": "d2c9e012-5b66-49ab-bee5-2711a32d2af8",
+        "__guid": "c4a1820d-b14c-4e7e-a3b2-c8a83166812d",
         "FlagPrefab": {
           "_type": "gameobject",
           "prefab": "prefabs/bombflag.prefab"
         },
         "FlagSpawnPosition": {
           "_type": "gameobject",
-          "go": "0ac9de08-a1e5-4a69-b17e-89b998b4cbed"
+          "go": "142d635f-bcce-4228-8920-859e94105660"
         },
         "State": "Closed"
       },
       {
         "__type": "NodeColorer",
-        "__guid": "aaac1d70-45c8-4e9d-b5d9-6adc5c98b596",
+        "__guid": "eedef092-94c0-48fa-8df0-2d152e2942e2",
         "BlockedColor": "0.5,0.5,0.5,1",
         "ClosedColor": "0.5,0.5,0.5,1",
         "DefaultColor": "0.5,0.5,0.5,1",
         "ModelRenderer": {
           "_type": "component",
-          "component_id": "6596c1a6-5505-4d22-8805-aeeb6a58dcce",
-          "go": "501e3a28-8f83-43b9-b58a-5fe9b050582f",
+          "component_id": "650a273a-e6c0-4d18-9507-06222b2ae7ff",
+          "go": "d2fdcdeb-8bb8-4d2d-b4bd-f1a119d7cbdd",
           "component_type": "ModelRenderer"
         },
         "Node": {
           "_type": "component",
-          "component_id": "d2c9e012-5b66-49ab-bee5-2711a32d2af8",
-          "go": "cd861657-c830-4023-8aff-39d6c0a1353d",
+          "component_id": "c4a1820d-b14c-4e7e-a3b2-c8a83166812d",
+          "go": "0297ca21-3841-4621-9d53-43b6a16b7be9",
           "component_type": "BombNode"
         },
         "OpenedColor": "1,0.33488,0.33488,1"
       },
       {
         "__type": "BoxCollider",
-        "__guid": "a67b0c1e-bce3-47b5-93ae-5f1851e92c53",
-        "Center": "0,0,7.5",
+        "__guid": "92d8057f-a4aa-4010-8bb4-60a62e3ee890",
+        "Center": "25,25,2.5",
         "IsTrigger": false,
         "Scale": "50,50,5",
         "Static": false
@@ -50,16 +50,16 @@
     ],
     "Children": [
       {
-        "__guid": "501e3a28-8f83-43b9-b58a-5fe9b050582f",
+        "__guid": "d2fdcdeb-8bb8-4d2d-b4bd-f1a119d7cbdd",
         "Name": "Model",
-        "Position": "0,0,2.5",
+        "Position": "25,25,2.5",
         "Scale": "1,1,0.1",
         "Enabled": true,
         "NetworkMode": 2,
         "Components": [
           {
             "__type": "ModelRenderer",
-            "__guid": "6596c1a6-5505-4d22-8805-aeeb6a58dcce",
+            "__guid": "650a273a-e6c0-4d18-9507-06222b2ae7ff",
             "BodyGroups": 18446744073709551615,
             "MaterialOverride": "materials/node.vmat",
             "Model": "models/dev/box.vmdl",
@@ -69,14 +69,15 @@
         ]
       },
       {
-        "__guid": "6c9abc34-6fc8-4837-a52d-646466b0cf71",
+        "__guid": "caee433b-cea4-400a-bfbd-137248fdfe03",
         "Name": "NodeOpener",
+        "Position": "25,25,0",
         "Enabled": true,
         "NetworkMode": 2,
         "Components": [
           {
             "__type": "BoxCollider",
-            "__guid": "403cc80b-854a-4932-b63d-68c6962330e1",
+            "__guid": "94085a6b-d6fd-498e-90cb-c2e69dbdf3a8",
             "Center": "0,0,5",
             "IsTrigger": true,
             "Scale": "50,50,10",
@@ -84,20 +85,20 @@
           },
           {
             "__type": "NodesOpener",
-            "__guid": "a2a879ad-5a04-4358-b430-3ed1ad34791d",
+            "__guid": "dfd67299-9f45-4766-8230-0d7b5c140709",
             "Node": {
               "_type": "component",
-              "component_id": "d2c9e012-5b66-49ab-bee5-2711a32d2af8",
-              "go": "cd861657-c830-4023-8aff-39d6c0a1353d",
+              "component_id": "c4a1820d-b14c-4e7e-a3b2-c8a83166812d",
+              "go": "0297ca21-3841-4621-9d53-43b6a16b7be9",
               "component_type": "BombNode"
             }
           }
         ]
       },
       {
-        "__guid": "0ac9de08-a1e5-4a69-b17e-89b998b4cbed",
+        "__guid": "142d635f-bcce-4228-8920-859e94105660",
         "Name": "FlagSpawnPoint",
-        "Position": "0,0,5",
+        "Position": "25,25,5",
         "Enabled": true,
         "NetworkMode": 2
       }

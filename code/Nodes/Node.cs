@@ -91,5 +91,5 @@ public abstract class Node : Component
             Flag?.Destroy();
     }
 
-    public override int GetHashCode() => HashCode.Combine(Initialized, World, Position, State);
+    public override int GetHashCode() => HashCode.Combine(Initialized, Position, State);
 }

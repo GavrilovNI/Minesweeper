@@ -1,0 +1,71 @@
+@using System;
+@using Sandbox;
+@using Sandbox.UI;
+@using Minesweeper.Nodes
+@using Minesweeper.Mth
+
+@namespace Minesweeper.UI
+@attribute [StyleSheet]
+@inherits PanelComponent
+
+<root>
+	@{
+		var size = World.Size;
+
+		var uiSize = 100f / size;
+		var sizeStyle = $"width: {uiSize.x}%; height: {uiSize.y}%;";
+
+		for(int x = 0; x < size.x; ++x)
+		{
+			for(int y = 0; y < size.y; ++y)
+			{
+				var position = new Vector2IntB(x, y);
+				var node = World.GetNode(position);
+
+				if(node is null || node.State != NodeState.Opened)
+					continue;
+
+				if(node is SafeNode safeNode)
+				{
+					int neighborsCount = safeNode.BombNeighborsCount;
+					if(neighborsCount > 0)
+					{
+						var uiPosition = 100f * new Vector2IntB(position.x, size.y - position.y - 1) / size;
+
+						var positionStyle = $"top: {uiPosition.y}%; left: {uiPosition.x}%;";
+						<div class="info" style="@(sizeStyle) @(positionStyle)">
+							<AdaptiveLabel class="neighbors_count">@neighborsCount</AdaptiveLabel>
+						</div>
+					}
+				}
+			}
+		}
+	}
+</root>
+
+@code
+{
+	[Property] public float UnitsPerUiUnit { get; set; } = 20f;
+
+	[Property, RequireComponent] public Sandbox.WorldPanel WorldPanel { get; set; }
+	[Property] public World World { get; set; }
+
+	protected override void OnEnabled()
+	{
+		World.NodesUpdated += OnNodesUpdated;
+	}
+
+	protected override void OnDisabled()
+	{
+		World.NodesUpdated -= OnNodesUpdated;
+	}
+
+	[Button("Update Scale")]
+	protected virtual void OnNodesUpdated()
+	{
+		var scale = World.Size * World.NodeScale * World.NodeSize / WorldPanel.PanelSize / Sandbox.UI.WorldPanel.ScreenToWorldScale;
+		Transform.Scale = new Vector3(1f, scale.x, scale.y);
+	}
+
+	protected override int BuildHash() => World.GetHashCode();
+}

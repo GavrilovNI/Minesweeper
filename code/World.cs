@@ -4,11 +4,16 @@ using System;
 using System.Collections.Generic;
 using Sandbox;
 using System.Linq;
+using Sandbox.UI;
 
 namespace Minesweeper;
 
 public class World : Component
 {
+    public event Action? OpenedBomb;
+    public event Action? OpenedAllSafeNodes;
+    public event Action? NodesUpdated;
+
     [Property] public Vector2IntB Size { get; private set; } = 8;
     [Property] public float NodeSize { get; private set; } = 50;
     [Property] public float NodeScale { get; private set; } = 1;
@@ -20,9 +25,6 @@ public class World : Component
     [Property] protected int OpenedNodesCount { get; private set; } = 0;
     [Property] protected int SafeNodesCount { get; private set; } = 0;
 
-    public event Action? OpenedBomb;
-    public event Action? OpenedAllSafeNodes;
-
     protected readonly Dictionary<Vector2IntB, Node> Nodes = new();
 
     public void Clear()
@@ -32,6 +34,7 @@ public class World : Component
 
         OpenedNodesCount = 0;
         SafeNodesCount = 0;
+        NodesUpdated?.Invoke();
     }
 
     protected override void OnAwake()
@@ -63,6 +66,8 @@ public class World : Component
 
         if(notifyNeighbors)
             NotifyNeighborsAboutUpdate(position);
+
+        NodesUpdated?.Invoke();
     }
 
     protected virtual bool RemoveNode(Vector2IntB position, bool notifyNeighbors = true)
@@ -82,6 +87,8 @@ public class World : Component
 
             if(notifyNeighbors)
                 NotifyNeighborsAboutUpdate(position);
+
+            NodesUpdated?.Invoke();
         }
 
         return removed;
@@ -95,11 +102,17 @@ public class World : Component
         return SpawnNode(prefab, position, enable);
     }
 
-    protected virtual Node SpawnNode(GameObject nodePrefab, Vector2IntB position, bool enable = true)
+    public Transform GetNodeWorldTransform(Vector2IntB nodePosition)
     {
-        var localPosition = position * NodeSize * NodeScale;
+        var localPosition = nodePosition * (NodeSize * NodeScale);
         var transform = new Transform(localPosition, Rotation.Identity, NodeScale);
         transform = Transform.Local.ToWorld(transform);
+        return transform;
+    }
+
+    protected virtual Node SpawnNode(GameObject nodePrefab, Vector2IntB position, bool enable = true)
+    {
+        var transform = GetNodeWorldTransform(position);
         var gameobject = nodePrefab.Clone(transform, NodesParent, false, $"Node {position}");
 
         var node = gameobject.Components.Get<Node>(true);
@@ -183,5 +196,13 @@ public class World : Component
 
     public Node? GetNode(Vector2IntB position) => Nodes!.GetValueOrDefault(position, null);
 
-    public override int GetHashCode() => HashCode.Combine(Nodes);
+    public override int GetHashCode()
+    {
+        var result = HashCode.Combine(Size, NodeScale);
+
+        foreach(var (_, node) in Nodes)
+            result = HashCode.Combine(result, node);
+
+        return result;
+    }
 }
