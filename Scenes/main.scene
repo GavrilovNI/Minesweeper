@@ -43,10 +43,7 @@
             "prefab": "prefabs/safenode.prefab"
           },
           "SafeNodesCount": 0,
-          "Size": {
-            "Length": 11,
-            "LengthSquared": 128
-          }
+          "Size": "8,8"
         }
       ]
     },
@@ -497,7 +494,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-03-28T04:14:38.3463068\u002B01:00",
+  "LastSaved": "2024-03-28T04:26:52.834982\u002B01:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": []

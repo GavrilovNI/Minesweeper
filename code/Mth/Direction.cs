@@ -17,18 +17,18 @@ public enum Direction
 
 public static class DirectionExtensions
 {
-    public static Vector2Int ToVector(this Direction direction)
+    public static Vector2IntB ToVector(this Direction direction)
     {
         return direction switch
         {
-            Direction.Up => Vector2Int.Up,
-            Direction.Right => Vector2Int.Right,
-            Direction.Down => Vector2Int.Down,
-            Direction.Left => Vector2Int.Left,
-            Direction.UpRight => Vector2Int.Up + Vector2Int.Right,
-            Direction.UpLeft => Vector2Int.Up + Vector2Int.Left,
-            Direction.DownRight => Vector2Int.Down + Vector2Int.Right,
-            Direction.DownLeft => Vector2Int.Down + Vector2Int.Left,
+            Direction.Up => Vector2IntB.Up,
+            Direction.Right => Vector2IntB.Right,
+            Direction.Down => Vector2IntB.Down,
+            Direction.Left => Vector2IntB.Left,
+            Direction.UpRight => Vector2IntB.Up + Vector2IntB.Right,
+            Direction.UpLeft => Vector2IntB.Up + Vector2IntB.Left,
+            Direction.DownRight => Vector2IntB.Down + Vector2IntB.Right,
+            Direction.DownLeft => Vector2IntB.Down + Vector2IntB.Left,
             _ => throw new InvalidOperationException($"Unknown direction {direction}")
         };
     }

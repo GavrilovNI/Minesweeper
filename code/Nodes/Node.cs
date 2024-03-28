@@ -17,14 +17,14 @@ public abstract class Node : Component
     protected GameObject? Flag { get; private set; }
 
     public bool Initialized { get; private set; }
-    public Vector2Int Position { get; private set; }
+    public Vector2IntB Position { get; private set; }
     public World World { get; private set; } = null!;
 
     public bool IsChangingState { get; private set; } = false;
 
     private NodeState _startingState;
 
-    public void Inititialize(World world, Vector2Int position, NodeState startingState = NodeState.Closed)
+    public void Inititialize(World world, Vector2IntB position, NodeState startingState = NodeState.Closed)
     {
         if(Initialized)
             throw new InvalidOperationException("Node is already inititialized");

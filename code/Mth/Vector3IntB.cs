@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -11,18 +10,18 @@ using System.Text.Json.Serialization;
 namespace Minesweeper.Mth;
 
 [JsonConverter(typeof(Vector3IntJsonConverter))]
-public struct Vector3Int : IEquatable<Vector3Int>, IParsable<Vector3Int>
+public struct Vector3IntB : IEquatable<Vector3IntB>, IParsable<Vector3IntB>
 {
-    public static readonly Vector3Int One = new(1);
-    public static readonly Vector3Int Zero = new(0);
-    public static readonly Vector3Int Forward = (Vector3Int)Vector3.Forward;
-    public static readonly Vector3Int Backward = (Vector3Int)Vector3.Backward;
-    public static readonly Vector3Int Left = (Vector3Int)Vector3.Left;
-    public static readonly Vector3Int Right = (Vector3Int)Vector3.Right;
-    public static readonly Vector3Int Up = (Vector3Int)Vector3.Up;
-    public static readonly Vector3Int Down = (Vector3Int)Vector3.Down;
+    public static readonly Vector3IntB One = new(1);
+    public static readonly Vector3IntB Zero = new(0);
+    public static readonly Vector3IntB Forward = (Vector3IntB)Vector3.Forward;
+    public static readonly Vector3IntB Backward = (Vector3IntB)Vector3.Backward;
+    public static readonly Vector3IntB Left = (Vector3IntB)Vector3.Left;
+    public static readonly Vector3IntB Right = (Vector3IntB)Vector3.Right;
+    public static readonly Vector3IntB Up = (Vector3IntB)Vector3.Up;
+    public static readonly Vector3IntB Down = (Vector3IntB)Vector3.Down;
 
-    public static readonly Comparer<Vector3Int> XYZIterationComparer = Comparer<Vector3Int>.Create((a, b) =>
+    public static readonly Comparer<Vector3IntB> XYZIterationComparer = Comparer<Vector3IntB>.Create((a, b) =>
     {
         var result = a.z - b.z;
         if(result != 0)
@@ -41,28 +40,28 @@ public struct Vector3Int : IEquatable<Vector3Int>, IParsable<Vector3Int>
     public int z { readonly get; set; }
 #pragma warning restore IDE1006 // Naming Styles
 
-    public Vector3Int(int x, int y, int z)
+    public Vector3IntB(int x, int y, int z)
     {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public Vector3Int(Vector2Int vector, int z = 0)
+    public Vector3IntB(Vector2IntB vector, int z = 0)
     {
         this.x = vector.x;
         this.y = vector.y;
         this.z = z;
     }
 
-    public Vector3Int(int all)
+    public Vector3IntB(int all)
     {
         this.x = all;
         this.y = all;
         this.z = all;
     }
 
-    public Vector3Int(Vector3Int other)
+    public Vector3IntB(Vector3IntB other)
     {
         this.x = other.x;
         this.y = other.y;
@@ -88,10 +87,61 @@ public struct Vector3Int : IEquatable<Vector3Int>, IParsable<Vector3Int>
     [JsonIgnore]
     public readonly float LengthSquared => x * x + y * y + z * z;
 
+    public readonly Angles EulerAngles => VectorAngle(this);
 
-    public readonly Vector3Int WithX(int x) => new(x, this.y, this.z);
-    public readonly Vector3Int WithY(int y) => new(this.x, y, this.z);
-    public readonly Vector3Int WithZ(int z) => new(this.x, this.y, z);
+    public readonly Vector3 Inverse => new(1f / x, 1f / y, 1f / z);
+
+    public int this[int index]
+    {
+        readonly get
+        {
+            return index switch
+            {
+                0 => x,
+                1 => y,
+                2 => z,
+                _ => throw new IndexOutOfRangeException(),
+            };
+        }
+        set
+        {
+            switch(index)
+            {
+                case 0:
+                    x = value;
+                    break;
+                case 1:
+                    y = value;
+                    break;
+                case 2:
+                    z = value;
+                    break;
+            }
+        }
+    }
+
+    public readonly IEnumerable<Vector3IntB> GetPositionsFromZero(bool includeMaxs = true) => GetPositionsFromZero(true, includeMaxs);
+
+    public readonly IEnumerable<Vector3IntB> GetPositionsFromZero(bool includeZero, bool includeMaxs)
+    {
+        var first = includeZero ? Vector3IntB.Zero : Vector3IntB.One;
+        var last = includeMaxs ? this : this - 1;
+
+        for(int x = first.x; x <= last.x; ++x)
+        {
+            for(int y = first.y; y <= last.y; ++y)
+            {
+                for(int z = first.z; z <= last.z; ++z)
+                {
+                    yield return new(x, y, z);
+                }
+            }
+        }
+    }
+
+    public readonly Vector3IntB WithX(int x) => new(x, this.y, this.z);
+    public readonly Vector3IntB WithY(int y) => new(this.x, y, this.z);
+    public readonly Vector3IntB WithZ(int z) => new(this.x, this.y, z);
 
     public readonly Vector3 WithX(float x) => new(x, this.y, this.z);
     public readonly Vector3 WithY(float y) => new(this.x, y, this.z);
@@ -100,55 +150,55 @@ public struct Vector3Int : IEquatable<Vector3Int>, IParsable<Vector3Int>
     public readonly Vector3 ClampLength(float maxLength) => ((Vector3)this).ClampLength(maxLength);
     public readonly Vector3 ClampLength(float minLength, float maxLength) => ((Vector3)this).ClampLength(minLength, maxLength);
 
-    public readonly Vector3Int Clamp(Vector3Int otherMin, Vector3Int otherMax) =>
+    public readonly Vector3IntB Clamp(Vector3IntB otherMin, Vector3IntB otherMax) =>
         new(Math.Clamp(x, otherMin.x, otherMax.x), Math.Clamp(y, otherMin.y, otherMax.y), Math.Clamp(z, otherMin.z, otherMax.z));
     public readonly Vector3 Clamp(Vector3 otherMin, Vector3 otherMax) =>
         new(Math.Clamp(x, otherMin.x, otherMax.x), Math.Clamp(y, otherMin.y, otherMax.y), Math.Clamp(z, otherMin.z, otherMax.z));
-    public readonly Vector3Int Clamp(int otherMin, int otherMax) =>
+    public readonly Vector3IntB Clamp(int otherMin, int otherMax) =>
         new(Math.Clamp(x, otherMin, otherMax), Math.Clamp(y, otherMin, otherMax), Math.Clamp(z, otherMin, otherMax));
     public readonly Vector3 Clamp(float otherMin, float otherMax) =>
         new(Math.Clamp(x, otherMin, otherMax), Math.Clamp(y, otherMin, otherMax), Math.Clamp(z, otherMin, otherMax));
 
-    public readonly Vector3Int ComponentMin(Vector3Int other) => new(Math.Min(x, other.x), Math.Min(y, other.y), Math.Min(z, other.z));
+    public readonly Vector3IntB ComponentMin(Vector3IntB other) => new(Math.Min(x, other.x), Math.Min(y, other.y), Math.Min(z, other.z));
     public readonly Vector3 ComponentMin(Vector3 other) => new(Math.Min(x, other.x), Math.Min(y, other.y), Math.Min(z, other.z));
-    public static Vector3Int Min(Vector3Int a, Vector3Int b) => a.ComponentMin(b);
+    public static Vector3IntB Min(Vector3IntB a, Vector3IntB b) => a.ComponentMin(b);
 
-    public readonly Vector3Int ComponentMax(Vector3Int other) => new(Math.Max(x, other.x), Math.Max(y, other.y), Math.Max(z, other.z));
+    public readonly Vector3IntB ComponentMax(Vector3IntB other) => new(Math.Max(x, other.x), Math.Max(y, other.y), Math.Max(z, other.z));
     public readonly Vector3 ComponentMax(Vector3 other) => new(Math.Max(x, other.x), Math.Max(y, other.y), Math.Max(z, other.z));
-    public static Vector3Int Max(Vector3Int a, Vector3Int b) => a.ComponentMax(b);
+    public static Vector3IntB Max(Vector3IntB a, Vector3IntB b) => a.ComponentMax(b);
 
     public readonly Vector3 LerpTo(Vector3 target, float frac, bool clamp = true) => Vector3.Lerp(this, target, frac, clamp);
 
-    public static Vector3Int Cross(Vector3Int a, Vector3Int b) => new(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
-    public readonly Vector3Int Cross(Vector3Int b) => Cross(this, b);
+    public static Vector3IntB Cross(Vector3IntB a, Vector3IntB b) => new(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+    public readonly Vector3IntB Cross(Vector3IntB b) => Cross(this, b);
     public readonly Vector3 Cross(Vector3 b) => Vector3.Cross(this, b);
 
-    public static int Dot(Vector3Int a, Vector3Int b) => a.x * b.x + a.y * b.y + a.z * b.z;
-    public readonly int Dot(Vector3Int b) => Dot(this, b);
+    public static int Dot(Vector3IntB a, Vector3IntB b) => a.x * b.x + a.y * b.y + a.z * b.z;
+    public readonly int Dot(Vector3IntB b) => Dot(this, b);
     public readonly float Dot(Vector3 b) => Vector3.Dot(this, b);
 
-    public static float DistanceBetween(Vector3Int a, Vector3 b) => (b - a).Length;
-    public static float DistanceBetween(Vector3 a, Vector3Int b) => (b - a).Length;
+    public static float DistanceBetween(Vector3IntB a, Vector3 b) => (b - a).Length;
+    public static float DistanceBetween(Vector3 a, Vector3IntB b) => (b - a).Length;
     public readonly float Distance(Vector3 target) => DistanceBetween(this, target);
 
-    public static float DistanceBetweenSquared(Vector3Int a, Vector3 b) => (b - a).LengthSquared;
-    public static float DistanceBetweenSquared(Vector3 a, Vector3Int b) => (b - a).LengthSquared;
+    public static float DistanceBetweenSquared(Vector3IntB a, Vector3 b) => (b - a).LengthSquared;
+    public static float DistanceBetweenSquared(Vector3 a, Vector3IntB b) => (b - a).LengthSquared;
     public readonly float DistanceSquared(Vector3 target) => DistanceBetweenSquared(this, target);
 
     public readonly Vector3 Approach(float length, float amount) => Normal * Length.Approach(length, amount);
 
-    public readonly Vector3Int Abs() => new(Math.Abs(x), Math.Abs(y), Math.Abs(z));
+    public readonly Vector3IntB Abs() => new(Math.Abs(x), Math.Abs(y), Math.Abs(z));
 
-    public static Vector3Int Reflect(Vector3Int direction, Vector3Int normal) => direction - 2 * Dot(direction, normal) * normal;
+    public static Vector3IntB Reflect(Vector3IntB direction, Vector3IntB normal) => direction - 2 * Dot(direction, normal) * normal;
 
-    public static Vector3Int VectorPlaneProject(Vector3Int v, Vector3Int planeNormal) => v - v.ProjectOnNormal(planeNormal);
-    public readonly Vector3Int ProjectOnNormal(Vector3Int normal) => normal * Dot(this, normal);
+    public static Vector3IntB VectorPlaneProject(Vector3IntB v, Vector3IntB planeNormal) => v - v.ProjectOnNormal(planeNormal);
+    public readonly Vector3IntB ProjectOnNormal(Vector3IntB normal) => normal * Dot(this, normal);
     public readonly Vector3 ProjectOnNormal(Vector3 normal) => normal * Vector3.Dot(this, normal);
 
-    public static void Sort(ref Vector3Int min, ref Vector3Int max)
+    public static void Sort(ref Vector3IntB min, ref Vector3IntB max)
     {
-        Vector3Int vector = new(Math.Min(min.x, max.x), Math.Min(min.y, max.y), Math.Min(min.z, max.z));
-        Vector3Int vector2 = new(Math.Max(min.x, max.x), Math.Max(min.y, max.y), Math.Max(min.z, max.z));
+        Vector3IntB vector = new(Math.Min(min.x, max.x), Math.Min(min.y, max.y), Math.Min(min.z, max.z));
+        Vector3IntB vector2 = new(Math.Max(min.x, max.x), Math.Max(min.y, max.y), Math.Max(min.z, max.z));
         min = vector;
         max = vector2;
     }
@@ -170,24 +220,13 @@ public struct Vector3Int : IEquatable<Vector3Int>, IParsable<Vector3Int>
     public static Vector3 CubicBezier(Vector3 source, Vector3 target, Vector3 sourceTangent, Vector3 targetTangent, float t) =>
         Vector3.CubicBezier(source, target, sourceTangent, targetTangent, t);
 
-    public readonly Vector3Int SubtractDirection(Vector3Int direction, int strength = 1) => this - direction * Dot(direction) * strength;
+    public readonly Vector3IntB SubtractDirection(Vector3IntB direction, int strength = 1) => this - direction * Dot(direction) * strength;
     public readonly Vector3 SubtractDirection(Vector3 direction, float strength = 1f) => this - direction * Dot(direction) * strength;
 
     public readonly Vector3 SnapToGrid(float gridSize, bool sx = true, bool sy = true, bool sz = true) => ((Vector3)this).SnapToGrid(gridSize, sx, sy, sz);
 
     public static Vector3 SmoothDamp(Vector3 current, Vector3 target, ref Vector3 velocity, float smoothTime, float deltaTime) =>
         Vector3.SmoothDamp(current, target, ref velocity, smoothTime, deltaTime);
-
-
-    public readonly void Write(BinaryWriter writer)
-    {
-        writer.Write(x);
-        writer.Write(y);
-        writer.Write(z);
-    }
-
-    public static Vector3Int Read(BinaryReader reader) => new(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
-
 
     public static float GetAngle(Vector3 v1, Vector3 v2) => Vector3.GetAngle(v1, v2);
     public readonly float Angle(Vector3 v2) => GetAngle(this, v2);
@@ -200,53 +239,56 @@ public struct Vector3Int : IEquatable<Vector3Int>, IParsable<Vector3Int>
     public readonly Vector3 WithAcceleration(Vector3 target, float acceleration) => ((Vector3)this).WithAcceleration(target, acceleration);
     public readonly Vector3 WithFriction(float frictionAmount, float stopSpeed = 140f) => ((Vector3)this).WithFriction(frictionAmount, stopSpeed);
 
-    public static Vector3Int operator +(Vector3Int a, Vector3Int b) => new(a.x + b.x, a.y + b.y, a.z + b.z);
-    public static Vector3Int operator -(Vector3Int a, Vector3Int b) => new(a.x - b.x, a.y - b.y, a.z - b.z);
-    public static Vector3Int operator -(Vector3Int vector) => new(-vector.x, -vector.y, -vector.z);
-    public static Vector3Int operator *(Vector3Int vector, int value) => new(vector.x * value, vector.y * value, vector.z * value);
-    public static Vector3Int operator *(int value, Vector3Int vector) => new(vector.x * value, vector.y * value, vector.z * value);
-    public static Vector3 operator *(Vector3Int vector, float value) => new(vector.x * value, vector.y * value, vector.z * value);
-    public static Vector3 operator *(float value, Vector3Int vector) => new(vector.x * value, vector.y * value, vector.z * value);
-    public static Vector3Int operator *(Vector3Int a, Vector3Int b) => new(a.x * b.x, a.y * b.y, a.z * b.z);
-    public static Vector3 operator *(Vector3Int a, Vector3 b) => new(a.x * b.x, a.y * b.y, a.z * b.z);
-    public static Vector3 operator *(Vector3 a, Vector3Int b) => new(a.x * b.x, a.y * b.y, a.z * b.z);
-    public static Vector3 operator *(Vector3Int vector, Rotation value) => System.Numerics.Vector3.Transform(vector, value);
-    public static Vector3 operator /(Vector3Int vector, float value) => new(vector.x / value, vector.y / value, vector.z / value);
-    public static Vector3Int operator /(Vector3Int a, Vector3Int b) => new(a.x / b.x, a.y / b.y, a.z / b.z);
-    public static Vector3 operator /(Vector3Int a, Vector3 b) => new(a.x / b.x, a.y / b.y, a.z / b.z);
-    public static Vector3 operator /(Vector3 a, Vector3Int b) => new(a.x / b.x, a.y / b.y, a.z / b.z);
-    public static Vector3Int operator %(Vector3Int a, Vector3Int b) => new(a.x % b.x, a.y % b.y, a.z % b.z);
+
+    public static Vector3IntB operator +(Vector3IntB a, Vector3IntB b) => new(a.x + b.x, a.y + b.y, a.z + b.z);
+    public static Vector3IntB operator -(Vector3IntB a, Vector3IntB b) => new(a.x - b.x, a.y - b.y, a.z - b.z);
+    public static Vector3IntB operator -(Vector3IntB vector) => new(-vector.x, -vector.y, -vector.z);
+    public static Vector3IntB operator *(Vector3IntB vector, int value) => new(vector.x * value, vector.y * value, vector.z * value);
+    public static Vector3IntB operator *(int value, Vector3IntB vector) => new(vector.x * value, vector.y * value, vector.z * value);
+    public static Vector3 operator *(Vector3IntB vector, float value) => new(vector.x * value, vector.y * value, vector.z * value);
+    public static Vector3 operator *(float value, Vector3IntB vector) => new(vector.x * value, vector.y * value, vector.z * value);
+    public static Vector3IntB operator *(Vector3IntB a, Vector3IntB b) => new(a.x * b.x, a.y * b.y, a.z * b.z);
+    public static Vector3 operator *(Vector3IntB a, Vector3 b) => new(a.x * b.x, a.y * b.y, a.z * b.z);
+    public static Vector3 operator *(Vector3 a, Vector3IntB b) => new(a.x * b.x, a.y * b.y, a.z * b.z);
+    public static Vector3 operator *(Vector3IntB vector, Rotation value) => System.Numerics.Vector3.Transform(vector, value);
+    public static Vector3 operator /(Vector3IntB vector, float value) => new(vector.x / value, vector.y / value, vector.z / value);
+    public static Vector3IntB operator /(Vector3IntB a, Vector3IntB b) => new(a.x / b.x, a.y / b.y, a.z / b.z);
+    public static Vector3 operator /(Vector3IntB a, Vector3 b) => new(a.x / b.x, a.y / b.y, a.z / b.z);
+    public static Vector3 operator /(Vector3 a, Vector3IntB b) => new(a.x / b.x, a.y / b.y, a.z / b.z);
+    public static Vector3IntB operator %(Vector3IntB a, Vector3IntB b) => new(a.x % b.x, a.y % b.y, a.z % b.z);
 
 
-    public static implicit operator Vector3(Vector3Int vector) => new(vector.x, vector.y, vector.z);
-    public static implicit operator System.Numerics.Vector3(Vector3Int vector) => new(vector.x, vector.y, vector.z);
-    public static explicit operator Vector3Int(Vector2 vector) => new((int)vector.x, (int)vector.y, 0);
-    public static explicit operator Vector3Int(Vector3 vector) => new((int)vector.x, (int)vector.y, (int)vector.z);
-    public static explicit operator Vector3Int(Vector4 vector) => new((int)vector.x, (int)vector.y, (int)vector.z);
-    public static explicit operator Vector3Int(Color color) => (Vector3Int)(Vector3)color;
-    public static explicit operator Vector3Int(System.Numerics.Vector3 vector) => new((int)vector.X, (int)vector.Y, (int)vector.Z);
-    public static implicit operator Vector3Int(int all) => new(all);
+    public static implicit operator Vector3IntB(Vector3Int vector) => new(vector.x, vector.y, vector.z);
+    public static implicit operator Vector3Int(Vector3IntB vector) => new(vector.x, vector.y, vector.z);
+    public static implicit operator Vector3(Vector3IntB vector) => new(vector.x, vector.y, vector.z);
+    public static implicit operator System.Numerics.Vector3(Vector3IntB vector) => new(vector.x, vector.y, vector.z);
+    public static explicit operator Vector3IntB(Vector2 vector) => new((int)vector.x, (int)vector.y, 0);
+    public static explicit operator Vector3IntB(Vector3 vector) => new((int)vector.x, (int)vector.y, (int)vector.z);
+    public static explicit operator Vector3IntB(Vector4 vector) => new((int)vector.x, (int)vector.y, (int)vector.z);
+    public static explicit operator Vector3IntB(Color color) => (Vector3IntB)(Vector3)color;
+    public static explicit operator Vector3IntB(System.Numerics.Vector3 vector) => new((int)vector.X, (int)vector.Y, (int)vector.Z);
+    public static implicit operator Vector3IntB(int all) => new(all);
 
-    public static bool operator ==(Vector3Int left, Vector3Int right) => left.x == right.x && left.y == right.y && left.z == right.z;
-    public static bool operator !=(Vector3Int left, Vector3Int right) => !(left == right);
+    public static bool operator ==(Vector3IntB left, Vector3IntB right) => left.x == right.x && left.y == right.y && left.z == right.z;
+    public static bool operator !=(Vector3IntB left, Vector3IntB right) => !(left == right);
 
     public override readonly bool Equals(object? obj)
     {
-        if(obj is Vector3Int vector)
+        if(obj is Vector3IntB vector)
             return Equals(vector);
         return false;
     }
-    public readonly bool Equals(Vector3Int vector) => this == vector;
+    public readonly bool Equals(Vector3IntB vector) => this == vector;
 
     public override readonly int GetHashCode() => HashCode.Combine(x, y, z);
 
 
-    public static Vector3Int Parse(string? str, IFormatProvider? _ = null)
+    public static Vector3IntB Parse(string? str, IFormatProvider? _ = null)
     {
         if(TryParse(str, CultureInfo.InvariantCulture, out var result))
             return result;
 
-        throw new FormatException($"couldn't parse {str} to {nameof(Vector3Int)}");
+        throw new FormatException($"couldn't parse {str} to {nameof(Vector3IntB)}");
     }
 
     //
@@ -255,7 +297,7 @@ public struct Vector3Int : IEquatable<Vector3Int>, IParsable<Vector3Int>
     //     work would be "1,1,1", "1;1;1", "[1 1 1]". This handles a bunch of different
     //     separators ( ' ', ',', ';', '\n', '\r' ). It also trims surrounding characters
     //     ('[', ']', ' ', '\n', '\r', '\t', '"').
-    public static bool TryParse([NotNullWhen(true)] string? str, IFormatProvider? provider, [MaybeNullWhen(false)] out Vector3Int result)
+    public static bool TryParse([NotNullWhen(true)] string? str, IFormatProvider? provider, [MaybeNullWhen(false)] out Vector3IntB result)
     {
         result = Zero;
         if(string.IsNullOrWhiteSpace(str))
@@ -277,11 +319,11 @@ public struct Vector3Int : IEquatable<Vector3Int>, IParsable<Vector3Int>
             return false;
         }
 
-        result = new Vector3Int(result2, result3, result4);
+        result = new Vector3IntB(result2, result3, result4);
         return true;
     }
 
-    public static bool TryParse(string? str, out Vector3Int result) => TryParse(str, CultureInfo.InvariantCulture, out result);
+    public static bool TryParse(string? str, out Vector3IntB result) => TryParse(str, CultureInfo.InvariantCulture, out result);
 
 
     public override readonly string ToString() => ToString("0.####");
@@ -297,9 +339,10 @@ public struct Vector3Int : IEquatable<Vector3Int>, IParsable<Vector3Int>
         return defaultInterpolatedStringHandler.ToStringAndClear();
     }
 
-    public class Vector3IntJsonConverter : JsonConverter<Vector3Int>
+
+    public class Vector3IntJsonConverter : JsonConverter<Vector3IntB>
     {
-        public override Vector3Int Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override Vector3IntB Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             if(reader.TokenType == JsonTokenType.Null)
             {
@@ -308,13 +351,13 @@ public struct Vector3Int : IEquatable<Vector3Int>, IParsable<Vector3Int>
 
             if(reader.TokenType == JsonTokenType.String)
             {
-                return Vector3Int.Parse(reader.GetString());
+                return Vector3IntB.Parse(reader.GetString());
             }
 
             if(reader.TokenType == JsonTokenType.StartArray)
             {
                 reader.Read();
-                Vector3Int result = default;
+                Vector3IntB result = default;
                 if(reader.TokenType == JsonTokenType.Number)
                 {
                     result.x = reader.GetInt32();
@@ -345,7 +388,7 @@ public struct Vector3Int : IEquatable<Vector3Int>, IParsable<Vector3Int>
             return default;
         }
 
-        public override void Write(Utf8JsonWriter writer, Vector3Int val, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, Vector3IntB val, JsonSerializerOptions options)
         {
             DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new(2, 3);
             defaultInterpolatedStringHandler.AppendFormatted(val.x);

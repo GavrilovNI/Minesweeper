@@ -9,7 +9,7 @@ namespace Minesweeper;
 
 public class World : Component
 {
-    [Property] public Vector2Int Size { get; private set; } = 8;
+    [Property] public Vector2IntB Size { get; private set; } = 8;
     [Property] public float NodeSize { get; private set; } = 50;
     [Property] public float NodeScale { get; private set; } = 1;
     [Property] public float BombChance { get; private set; } = 0.2f;
@@ -22,7 +22,7 @@ public class World : Component
     public event Action? OpenedBomb;
     public event Action? OpenedAllSafeNodes;
 
-    protected readonly Dictionary<Vector2Int, Node> Nodes = new();
+    protected readonly Dictionary<Vector2IntB, Node> Nodes = new();
 
     public void Clear()
     {
@@ -33,7 +33,7 @@ public class World : Component
         SafeNodesCount = 0;
     }
 
-    protected virtual void NotifyNeighborsAboutUpdate(Vector2Int position)
+    protected virtual void NotifyNeighborsAboutUpdate(Vector2IntB position)
     {
         foreach(var direction in Enum.GetValues<Direction>())
         {
@@ -59,7 +59,7 @@ public class World : Component
             NotifyNeighborsAboutUpdate(position);
     }
 
-    protected virtual bool RemoveNode(Vector2Int position, bool notifyNeighbors = true)
+    protected virtual bool RemoveNode(Vector2IntB position, bool notifyNeighbors = true)
     {
         bool removed = Nodes.TryGetValue(position, out var currentNode);
         if(removed)
@@ -81,7 +81,7 @@ public class World : Component
         return removed;
     }
 
-    protected virtual Node SpawnRandomNode(Vector2Int position, bool enable = true)
+    protected virtual Node SpawnRandomNode(Vector2IntB position, bool enable = true)
     {
         float random = Game.Random.Float();
         var prefab = random < BombChance ? BombNodePrefab : SafeNodePrefab;
@@ -89,7 +89,7 @@ public class World : Component
         return SpawnNode(prefab, position, enable);
     }
 
-    protected virtual Node SpawnNode(GameObject nodePrefab, Vector2Int position, bool enable = true)
+    protected virtual Node SpawnNode(GameObject nodePrefab, Vector2IntB position, bool enable = true)
     {
         var localPosition = position * NodeSize * NodeScale;
         var transform = new Transform(localPosition, Rotation.Identity, NodeScale);
@@ -113,15 +113,15 @@ public class World : Component
         {
             for(int y = 0; y < Size.y; ++y)
             {
-                var position = new Vector2Int(x, y);
+                var position = new Vector2IntB(x, y);
                 var node = SpawnRandomNode(position, false);
                 ChangeOrAddNode(node, false);
             }
         }
 
-        /*if(GetNode(Vector2Int.Zero) is SafeNode)
+        /*if(GetNode(Vector2IntB.Zero) is SafeNode)
         {
-            var newNode = SpawnNode(BombNodePrefab, Vector2Int.Zero, false);
+            var newNode = SpawnNode(BombNodePrefab, Vector2IntB.Zero, false);
             ChangeOrAddNode(newNode);
         }*/
 
@@ -129,7 +129,7 @@ public class World : Component
             node.GameObject.Enabled = true;
     }
 
-    public bool HasNode(Vector2Int position) => Nodes.ContainsKey(position);
+    public bool HasNode(Vector2IntB position) => Nodes.ContainsKey(position);
 
 
     protected virtual void OnNodeStateChanged(Node node, NodeState oldState, NodeState newState)
@@ -176,7 +176,7 @@ public class World : Component
         OpenedAllSafeNodes?.Invoke();
     }
 
-    public Node? GetNode(Vector2Int position) => Nodes!.GetValueOrDefault(position, null);
+    public Node? GetNode(Vector2IntB position) => Nodes!.GetValueOrDefault(position, null);
 
     public override int GetHashCode() => HashCode.Combine(Nodes);
 }
