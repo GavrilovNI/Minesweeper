@@ -37,6 +37,10 @@
           },
           "NodeScale": 2,
           "NodeSize": 50,
+          "NodesParent": {
+            "_type": "gameobject",
+            "go": "5d0e39b1-5635-459f-ac2a-d43a026761c9"
+          },
           "OpenedNodesCount": 0,
           "SafeNodePrefab": {
             "_type": "gameobject",
@@ -44,6 +48,14 @@
           },
           "SafeNodesCount": 0,
           "Size": "8,8"
+        }
+      ],
+      "Children": [
+        {
+          "__guid": "5d0e39b1-5635-459f-ac2a-d43a026761c9",
+          "Name": "Nodes",
+          "Enabled": true,
+          "NetworkMode": 2
         }
       ]
     },
@@ -494,7 +506,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-03-28T04:26:52.834982\u002B01:00",
+  "LastSaved": "2024-03-28T04:41:24.719456\u002B01:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": []

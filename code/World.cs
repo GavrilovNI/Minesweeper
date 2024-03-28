@@ -14,6 +14,7 @@ public class World : Component
     [Property] public float NodeScale { get; private set; } = 1;
     [Property] public float BombChance { get; private set; } = 0.2f;
 
+    [Property] public GameObject NodesParent { get; private set; } = null!;
     [Property] public GameObject SafeNodePrefab { get; private set; } = null!;
     [Property] public GameObject BombNodePrefab { get; private set; } = null!;
     [Property] protected int OpenedNodesCount { get; private set; } = 0;
@@ -31,6 +32,11 @@ public class World : Component
 
         OpenedNodesCount = 0;
         SafeNodesCount = 0;
+    }
+
+    protected override void OnAwake()
+    {
+        NodesParent ??= GameObject;
     }
 
     protected virtual void NotifyNeighborsAboutUpdate(Vector2IntB position)
@@ -94,8 +100,7 @@ public class World : Component
         var localPosition = position * NodeSize * NodeScale;
         var transform = new Transform(localPosition, Rotation.Identity, NodeScale);
         transform = Transform.Local.ToWorld(transform);
-        var gameobject = nodePrefab.Clone(transform, GameObject, false, $"Node {position}");
-        //gameobject.BreakFromPrefab();
+        var gameobject = nodePrefab.Clone(transform, NodesParent, false, $"Node {position}");
 
         var node = gameobject.Components.Get<Node>(true);
         if(node is null)
