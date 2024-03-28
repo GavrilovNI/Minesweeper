@@ -1,181 +1,105 @@
-﻿using Sandbox;
+﻿using Minesweeper.Mth;
+using Sandbox;
 using Sandbox.Citizen;
+using System;
 using System.Linq;
 
 namespace Minesweeper.Players;
 
 public class PlayerController : Component
 {
-    [Property] public Vector3 Gravity { get; set; } = new Vector3(0, 0, 800);
+    [Property] protected CharacterController CharacterController { get; set; } = null!;
+    [Property] protected GameObject Camera { get; set; } = null!;
+    [Property] protected float WalkSpeed { get; set; } = 160f;
+    [Property] protected float RunSpeed { get; set; } = 270f;
+    [Property] protected float JumpVelocity { get; set; } = 320f;
+    [Property] protected float GroundFriction { get; set; } = 4f;
+    [Property] protected float AirFriction { get; set; } = 0.1f;
+    [Property] protected float StopSpeed { get; set; } = 140f;
+    [Property] protected float AirWishVelocityClamp { get; set; } = 50f;
 
-    public Vector3 WishVelocity { get; private set; }
-
-    [Property] public GameObject Body { get; set; }
-    [Property] public GameObject Eye { get; set; }
-    [Property] public CitizenAnimationHelper AnimationHelper { get; set; }
-    [Property] public bool FirstPerson { get; set; }
-
-    [Sync]
-    public Angles EyeAngles { get; set; }
-
-    [Sync]
-    public bool IsRunning { get; set; }
-
-    protected override void OnEnabled()
+    public virtual Vector3 Gravity => Scene.PhysicsWorld.Gravity;
+    public Vector3 GravityNormal
     {
-        base.OnEnabled();
-
-        if(IsProxy)
-            return;
-
-        var cam = Scene.GetAllComponents<CameraComponent>().FirstOrDefault();
-        if(cam is not null)
+        get
         {
-            var ee = cam.Transform.Rotation.Angles();
-            ee.roll = 0;
-            EyeAngles = ee;
+            var gravity = Gravity;
+            var result = gravity.Normal;
+            if(result.AlmostEqual(0))
+                return Vector3.Down;
+            return result;
         }
+    }
+
+    public bool IsRunning { get; protected set; }
+    public bool IsJumped { get; protected set; }
+
+    public Vector3 WishVelocity { get; protected set; }
+
+    protected override void OnAwake()
+    {
+        CharacterController ??= Components.Get<CharacterController>();
     }
 
     protected override void OnUpdate()
     {
-        // Eye input
-        if(!IsProxy)
-        {
-            var ee = EyeAngles;
-            ee += Input.AnalogLook * 0.5f;
-            ee.roll = 0;
-            EyeAngles = ee;
-
-            var cam = Scene.GetAllComponents<CameraComponent>().FirstOrDefault();
-
-            var lookDir = EyeAngles.ToRotation();
-
-            if(FirstPerson)
-            {
-                cam.Transform.Position = Eye.Transform.Position;
-                cam.Transform.Rotation = lookDir;
-            }
-            else
-            {
-                cam.Transform.Position = Transform.Position + lookDir.Backward * 300 + Vector3.Up * 75.0f;
-                cam.Transform.Rotation = lookDir;
-            }
-
-
-
-            IsRunning = Input.Down("Run");
-        }
-
-        var cc = GameObject.Components.Get<CharacterController>();
-        if(cc is null)
-            return;
-
-        float rotateDifference = 0;
-
-        // rotate body to look angles
-        if(Body is not null)
-        {
-            var targetAngle = new Angles(0, EyeAngles.yaw, 0).ToRotation();
-
-            var v = cc.Velocity.WithZ(0);
-
-            if(v.Length > 10.0f)
-            {
-                targetAngle = Rotation.LookAt(v, Vector3.Up);
-            }
-
-            rotateDifference = Body.Transform.Rotation.Distance(targetAngle);
-
-            if(rotateDifference > 50.0f || cc.Velocity.Length > 10.0f)
-            {
-                Body.Transform.Rotation = Rotation.Lerp(Body.Transform.Rotation, targetAngle, Time.Delta * 2.0f);
-            }
-        }
-
-
-        if(AnimationHelper is not null)
-        {
-            AnimationHelper.WithVelocity(cc.Velocity);
-            AnimationHelper.WithWishVelocity(WishVelocity);
-            AnimationHelper.IsGrounded = cc.IsOnGround;
-            AnimationHelper.FootShuffle = rotateDifference;
-            AnimationHelper.WithLook(EyeAngles.Forward, 1, 1, 1.0f);
-            AnimationHelper.MoveStyle = IsRunning ? CitizenAnimationHelper.MoveStyles.Run : CitizenAnimationHelper.MoveStyles.Walk;
-        }
+        UpdateInputs();
+        WishVelocity = CalculateWishVelocity();
     }
-
-    [Broadcast]
-    public void OnJump(float floatValue, string dataString, object[] objects, Vector3 position)
-    {
-        AnimationHelper?.TriggerJump();
-    }
-
-    float fJumps;
 
     protected override void OnFixedUpdate()
     {
-        if(IsProxy)
-            return;
-
-        BuildWishVelocity();
-
-        var cc = GameObject.Components.Get<CharacterController>();
-
-        if(cc.IsOnGround && Input.Down("Jump"))
-        {
-            float flGroundFactor = 1.0f;
-            float flMul = 268.3281572999747f * 1.2f;
-            //if ( Duck.IsActive )
-            //	flMul *= 0.8f;
-
-            cc.Punch(Vector3.Up * flMul * flGroundFactor);
-            //	cc.IsOnGround = false;
-
-            OnJump(fJumps, "Hello", new object[] { Time.Now.ToString(), 43.0f }, Vector3.Random);
-
-            fJumps += 1.0f;
-
-        }
-
-        if(cc.IsOnGround)
-        {
-            cc.Velocity = cc.Velocity.WithZ(0);
-            cc.Accelerate(WishVelocity);
-            cc.ApplyFriction(4.0f);
-        }
-        else
-        {
-            cc.Velocity -= Gravity * Time.Delta * 0.5f;
-            cc.Accelerate(WishVelocity.ClampLength(50));
-            cc.ApplyFriction(0.1f);
-        }
-
-        cc.Move();
-
-        if(!cc.IsOnGround)
-        {
-            cc.Velocity -= Gravity * Time.Delta * 0.5f;
-        }
-        else
-        {
-            cc.Velocity = cc.Velocity.WithZ(0);
-        }
+        Move();
     }
 
-    public void BuildWishVelocity()
+    protected virtual void Move()
     {
-        var rot = EyeAngles.ToRotation();
+        var halfGravityVelocity = Gravity * (Time.Delta * 0.5f);
+        var gravityNormal = GravityNormal;
 
-        WishVelocity = rot * Input.AnalogMove;
-        WishVelocity = WishVelocity.WithZ(0);
+        if(CharacterController.IsOnGround && Input.Pressed("Jump"))
+            Jump();
 
-        if(!WishVelocity.IsNearZeroLength)
-            WishVelocity = WishVelocity.Normal;
-
-        if(Input.Down("Run"))
-            WishVelocity *= 320.0f;
+        if(CharacterController.IsOnGround)
+        {
+            CharacterController.Velocity = CharacterController.Velocity.ProjectOnPlane(gravityNormal);
+            CharacterController.Accelerate(WishVelocity);
+            CharacterController.ApplyFriction(GroundFriction, StopSpeed);
+        }
         else
-            WishVelocity *= 110.0f;
+        {
+            CharacterController.Velocity += halfGravityVelocity;
+            CharacterController.Accelerate(WishVelocity.ClampLength(AirWishVelocityClamp));
+            CharacterController.ApplyFriction(AirFriction, StopSpeed);
+        }
+
+        CharacterController.Move();
+
+        if(CharacterController.IsOnGround)
+            CharacterController.Velocity = CharacterController.Velocity.ProjectOnPlane(gravityNormal);
+        else
+            CharacterController.Velocity += halfGravityVelocity;
+    }
+
+    protected virtual void Jump()
+    {
+        CharacterController.Punch(-GravityNormal * JumpVelocity);
+    }
+
+    protected virtual float GetWishSpeed(Vector3 input) => IsRunning ? RunSpeed : WalkSpeed;
+
+    protected virtual void UpdateInputs()
+    {
+        IsRunning = Input.Down("Run");
+        IsJumped = Input.Pressed("Jump");
+    }
+
+    protected virtual Vector3 CalculateWishVelocity()
+    {
+        var input = Input.AnalogMove.WithZ(0);
+        Vector3 result = input * Camera.Transform.Rotation;
+        result = result.ProjectOnPlane(GravityNormal).Normal;
+        result *= GetWishSpeed(input);
+        return result;
     }
 }
