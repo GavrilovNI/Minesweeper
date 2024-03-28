@@ -1,14 +1,41 @@
 @using Sandbox;
 @using Sandbox.UI;
-@inherits PanelComponent
+@using System.Linq;
 
+@inherits PanelComponent
 @namespace Minesweeper.UI
 
-<root style="left:@(100f * Mouse.Position.x / Screen.Size.x)%; top:@(100f * Mouse.Position.y / Screen.Size.y)%;">
+<root style="left:@(100f * MousePosition.x / Screen.Size.x)%; top:@(100f * MousePosition.y / Screen.Size.y)%;">
 
 </root>
 
 @code
 {
-	protected override int BuildHash() => Mouse.Position.GetHashCode();
+	public static Vector2 MousePosition { get; private set; }
+
+
+	protected override void OnEnabled()
+	{
+		if(Scene.Components.GetAll<MousePointerUI>(FindMode.EnabledInSelfAndDescendants).Count(c => c.IsValid) > 1)
+		{
+			Log.Warning($"There are to many {nameof(MousePointerUI)}, destroying...");
+			Destroy();
+			return;
+		}
+
+		MousePosition = Mouse.Position;
+	}
+
+	protected override void OnUpdate()
+	{
+		if(Mouse.Visible)
+		{
+			MousePosition = Mouse.Position;
+			return;
+		}
+
+		MousePosition = (MousePosition + Mouse.Delta).Clamp(Vector2.Zero, Screen.Size - 1);
+	}
+
+	protected override int BuildHash() => MousePosition.GetHashCode();
 }

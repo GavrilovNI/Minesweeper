@@ -6,6 +6,8 @@ public class NodeBlocker : Component
 {
     [Property] protected CameraComponent Camera { get; set; } = null!;
 
+    protected Vector2 MousePosition => UI.MousePointerUI.MousePosition;
+
     protected override void OnUpdate()
     {
         if(Input.Pressed("attack1"))
@@ -14,7 +16,7 @@ public class NodeBlocker : Component
 
     protected virtual void ClickOnNode()
     {
-        var ray = Camera.ScreenPixelToRay(Mouse.Position);
+        var ray = Camera.ScreenPixelToRay(MousePosition);
         var traceResult = Scene.Trace.Ray(ray, 100000f).WithTag("node").Run();
 
         bool hit = traceResult.Hit;
