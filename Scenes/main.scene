@@ -1,5 +1,5 @@
 {
-  "__guid": "d82cbc87-d5a3-46cd-a2ee-275c20cdba16",
+  "__guid": "bd2a8f48-8f09-4131-82e8-94addc1cb1aa",
   "GameObjects": [
     {
       "__guid": "35338325-5c60-4a85-a13c-86299945d15d",
@@ -115,15 +115,6 @@
           "__guid": "662e34c0-b8b3-4d3b-806c-ceb9b0b27dd5"
         }
       ]
-    },
-    {
-      "__guid": "5d72c6bf-23e4-4b2a-8c48-2188bd4b7082",
-      "Name": "Player",
-      "Position": "-165.3639,0,36.72807",
-      "Tags": "player",
-      "Enabled": true,
-      "NetworkMode": 2,
-      "__Prefab": "prefabs/player.prefab"
     },
     {
       "__guid": "995ba1d4-89e3-4067-a10c-a661ce03eda5",
@@ -388,6 +379,25 @@
           ]
         }
       ]
+    },
+    {
+      "__guid": "cad10a04-6373-4b44-8e4d-ae6158f8d7c4",
+      "Name": "Network",
+      "Position": "-474.9218,59.83311,212.3828",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "NetworkHelper",
+          "__guid": "4f45960e-a763-4d50-8fbc-470feac658d7",
+          "PlayerPrefab": {
+            "_type": "gameobject",
+            "prefab": "prefabs/player.prefab"
+          },
+          "SpawnPoints": [],
+          "StartServer": true
+        }
+      ]
     }
   ],
   "SceneProperties": {
@@ -413,7 +423,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-04-01T01:22:41.2783695\u002B02:00",
+  "LastSaved": "2024-04-01T01:25:53.3361688\u002B02:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": []

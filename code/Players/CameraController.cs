@@ -5,18 +5,18 @@ namespace Minesweeper.Players;
 
 public class CameraController : Component
 {
-    [Property] protected CameraComponent Camera { get; set; } = null!;
+    [Property] protected GameObject CameraTransform { get; set; } = null!;
 
     private float _distanceToPivot = 200;
 
-    [Property] protected float DistanceToPivot
+    [Property, Sync] protected float DistanceToPivot
     {
         get => _distanceToPivot;
         set
         {
             _distanceToPivot = value;
-            if(Camera.IsValid())
-                Camera.Transform.LocalPosition = Camera.Transform.LocalPosition.WithX(-value);
+            if(CameraTransform.IsValid())
+                CameraTransform.Transform.LocalPosition = CameraTransform.Transform.LocalPosition.WithX(-value);
         }
     }
 
@@ -29,10 +29,13 @@ public class CameraController : Component
     [Property] protected TagSet BackTraceTags { get; set; } = null!;
     [Property] protected TagSet BackTraceIgnoreTags { get; set; } = null!;
 
-    public Angles EyeAngles { get; set; }
+    [Sync] public Angles EyeAngles { get; set; }
 
     protected override void OnUpdate()
     {
+        if(IsProxy)
+            return;
+
         var distanceToPivotOffset = -Input.MouseWheel.y * DistanceToPivotChangingSensitivity;
         var newDistanceToPivot = DistanceToPivot + distanceToPivotOffset;
         newDistanceToPivot = Math.Clamp(newDistanceToPivot, MinDistanceToPivot, MaxDistanceToPivot);
@@ -49,12 +52,12 @@ public class CameraController : Component
             Transform.Rotation = EyeAngles.ToRotation();
         }
 
-        var backTraceResult = Scene.Trace.Ray(Transform.Position, Camera.Transform.Position)
+        var backTraceResult = Scene.Trace.Ray(Transform.Position, CameraTransform.Transform.Position)
             .IgnoreGameObjectHierarchy(Player)
             .Radius(BackTraceRadius)
             .WithAnyTags(BackTraceTags)
             .WithoutTags(BackTraceIgnoreTags)
             .Run();
-        Camera.Transform.Position = backTraceResult.EndPosition;
+        CameraTransform.Transform.Position = backTraceResult.EndPosition;
     }
 }

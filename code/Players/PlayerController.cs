@@ -9,7 +9,7 @@ namespace Minesweeper.Players;
 public class PlayerController : Component
 {
     [Property] protected CharacterController CharacterController { get; set; } = null!;
-    [Property] protected GameObject Camera { get; set; } = null!;
+    [Property] protected GameObject CameraTransform { get; set; } = null!;
     [Property] protected float WalkSpeed { get; set; } = 160f;
     [Property] protected float RunSpeed { get; set; } = 270f;
     [Property] protected float JumpVelocity { get; set; } = 320f;
@@ -31,10 +31,10 @@ public class PlayerController : Component
         }
     }
 
-    public bool IsRunning { get; protected set; }
-    public bool IsJumped { get; protected set; }
+    [Sync] public bool IsRunning { get; protected set; }
+    [Sync] public bool IsJumped { get; protected set; }
 
-    public Vector3 WishVelocity { get; protected set; }
+    [Sync] public Vector3 WishVelocity { get; protected set; }
 
     protected override void OnAwake()
     {
@@ -43,12 +43,18 @@ public class PlayerController : Component
 
     protected override void OnUpdate()
     {
+        if(IsProxy)
+            return;
+
         UpdateInputs();
         WishVelocity = CalculateWishVelocity();
     }
 
     protected override void OnFixedUpdate()
     {
+        if(IsProxy)
+            return;
+
         Move();
     }
 
@@ -97,7 +103,7 @@ public class PlayerController : Component
     protected virtual Vector3 CalculateWishVelocity()
     {
         var input = Input.AnalogMove.WithZ(0);
-        Vector3 result = input * Camera.Transform.Rotation;
+        Vector3 result = input * CameraTransform.Transform.Rotation;
         result = result.ProjectOnPlane(GravityNormal).Normal;
         result *= GetWishSpeed(input);
         return result;
