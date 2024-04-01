@@ -90,7 +90,7 @@ public class GameController : Component
     }
     protected virtual void RespawnPlayer(Player player, SpawnPoint spawnPoint)
     {
-        player.Transform.World = spawnPoint.Transform.World;
+        player.SetTransform(spawnPoint.Transform.World);
     }
 
     protected virtual void RespawnPlayers()
