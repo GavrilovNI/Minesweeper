@@ -54,7 +54,7 @@
 				<div class="refreshing">
 					@if(UpdatingLobbies)
 					{
-						<i class="refreshing-icon">autorenew</i>
+						<div class="refreshing-icon"></div>
 					}
 					<div class="refresh-button button" onclick="@(() => {Lobbies.Clear(); _ = UpdateLobbies();})">
 						<AdaptiveLabel class="label">Refresh</AdaptiveLabel>

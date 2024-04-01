@@ -156,9 +156,16 @@ MainMenu {
 
                     .refreshing-icon {
                         position: relative;
-                        font-size: 50px;
+                        align-self: center;
+                        margin-right: 5px;
+                        height: 80%;
+                        aspect-ratio: 1;
+                        background-image: url(textures/refresh_icon.png);
+                        background-repeat: no-repeat;
+                        background-size: 100%;
                         animation-name: rotate;
                         animation-duration: .9s;
+                        animation-iteration-count: 10000;
                     }
 
                     .refresh-button {
