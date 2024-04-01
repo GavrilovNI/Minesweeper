@@ -13,7 +13,7 @@
         "Bounciness": 0.3,
         "GroundAngle": 45,
         "Height": 64,
-        "IgnoreLayers": "",
+        "IgnoreLayers": "player",
         "Radius": 16,
         "StepHeight": 18
       },
