@@ -1,4 +1,5 @@
 ﻿using Minesweeper.Mth;
+using Minesweeper.Networking;
 using Minesweeper.Players;
 using Sandbox;
 using System;
@@ -66,6 +67,8 @@ public class GameController : Component
 
     protected virtual void SetState(GameState state)
     {
+        NetworkAuthorityException.ThrowIfProxy(this);
+
         if(IsChangingState)
             throw new InvalidOperationException("Can't change node state when state is in changing process");
 
@@ -90,11 +93,15 @@ public class GameController : Component
     }
     protected virtual void RespawnPlayer(Player player, SpawnPoint spawnPoint)
     {
+        NetworkAuthorityException.ThrowIfProxy(this);
+
         player.SetTransform(spawnPoint.Transform.World);
     }
 
     protected virtual void RespawnPlayers()
     {
+        NetworkAuthorityException.ThrowIfProxy(this);
+
         var spawnPoints = Scene.GetAllComponents<SpawnPoint>().Shuffle();
         var players = Scene.GetAllComponents<Player>();
 
@@ -109,6 +116,8 @@ public class GameController : Component
 
     protected virtual async Task StartGame()
     {
+        NetworkAuthorityException.ThrowIfProxy(this);
+
         if(State == GameState.Starting || State == GameState.Started)
             throw new InvalidOperationException("Game is already started");
 
@@ -127,18 +136,24 @@ public class GameController : Component
 
     protected virtual void BlockSpawn()
     {
+        NetworkAuthorityException.ThrowIfProxy(this);
+
         foreach(var blocker in Scene.Components.GetAll<SpawnBlocker>())
             blocker.Blocking = true;
     }
 
     protected virtual void UnblockSpawn()
     {
+        NetworkAuthorityException.ThrowIfProxy(this);
+
         foreach(var blocker in Scene.GetAllComponents<SpawnBlocker>())
             blocker.Blocking = false;
     }
 
     protected virtual void OnOpenedBomb()
     {
+        NetworkAuthorityException.ThrowIfProxy(this);
+
         if(State != GameState.Started)
             return;
 
@@ -148,6 +163,8 @@ public class GameController : Component
 
     protected virtual void OnOpenedAllSafeNodes()
     {
+        NetworkAuthorityException.ThrowIfProxy(this);
+
         if(State != GameState.Started)
             return;
 
