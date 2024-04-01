@@ -1,8 +1,8 @@
 {
-  "Title": "Minesweeping Together",
+  "Title": "Minesweeper",
   "Type": "game",
   "Org": "minesweeper",
-  "Ident": "minesweeping_together",
+  "Ident": "minesweeper",
   "Tags": null,
   "Schema": 1,
   "HasAssets": true,
