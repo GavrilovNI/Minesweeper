@@ -20,8 +20,6 @@ public class NodeBlocker : Component
         var traceResult = Scene.Trace.Ray(ray, 100000f).WithTag("node").Run();
 
         bool hit = traceResult.Hit;
-        Gizmo.Draw.Color = hit ? Color.Green : Color.Red;
-        Gizmo.Draw.Line(traceResult.StartPosition, traceResult.EndPosition);
 
         if(hit)
         {
