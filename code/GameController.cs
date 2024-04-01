@@ -34,6 +34,7 @@ public class GameController : Component
 
     protected TaskCompletionSource? StartGameTaskCompletionSource { get; private set; } = null;
 
+
     protected override void OnEnabled()
     {
         if(Instance.IsValid() && Instance != this)
