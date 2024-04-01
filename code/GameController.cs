@@ -122,14 +122,14 @@ public class GameController : Component
 
     protected virtual void BlockSpawn()
     {
-        foreach(var blocker in Scene.Components.GetAll<SpawnBlocker>(FindMode.DisabledInSelfAndDescendants))
-            blocker.GameObject.Enabled = true;
+        foreach(var blocker in Scene.Components.GetAll<SpawnBlocker>())
+            blocker.Blocking = true;
     }
 
     protected virtual void UnblockSpawn()
     {
         foreach(var blocker in Scene.GetAllComponents<SpawnBlocker>())
-            blocker.GameObject.Enabled = false;
+            blocker.Blocking = false;
     }
 
     protected virtual void OnOpenedBomb()

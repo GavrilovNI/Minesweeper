@@ -260,11 +260,12 @@
           "Name": "SpawnBlocker",
           "Position": "0,0,0",
           "Enabled": true,
-          "NetworkMode": 2,
+          "NetworkMode": 1,
           "Components": [
             {
               "__type": "SpawnBlocker",
-              "__guid": "ff3d5c3e-10b3-4d23-a7d9-6804982c109b"
+              "__guid": "ff3d5c3e-10b3-4d23-a7d9-6804982c109b",
+              "Blocking": true
             }
           ],
           "Children": [
@@ -423,7 +424,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-04-01T01:25:53.3361688\u002B02:00",
+  "LastSaved": "2024-04-01T04:52:15.3523523\u002B02:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": []
