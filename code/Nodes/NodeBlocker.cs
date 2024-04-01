@@ -6,7 +6,7 @@ public class NodeBlocker : Component
 {
     [Property] protected CameraComponent Camera { get; set; } = null!;
 
-    protected Vector2 MousePosition => UI.MousePointerUI.MousePosition;
+    protected virtual Vector2 MousePosition => UI.MousePointerUI.MousePosition;
 
     protected override void OnUpdate()
     {
