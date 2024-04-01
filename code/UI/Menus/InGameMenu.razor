@@ -1,0 +1,63 @@
+@using Sandbox
+@using Sandbox.UI
+@using System
+@using System.Linq
+
+@namespace Minesweeper.UI.Menus
+@attribute [StyleSheet]
+@inherits PanelComponent
+
+<root @(IsOpened ? "enabled" : "")>
+	<div class="buttons">
+		<div class="button" onclick="@(() => IsOpened = false)">Close</div>
+		<div class="button disabled">Settings</div>
+		<div id="leave-game-button" class="button" onclick="@(Leave)">Leave</div>
+	</div>
+</root>
+
+
+@code
+{
+	public static InGameMenu Instance { get; private set; }
+
+	private bool _isOpened = false;
+
+	[Property] public bool IsOpened
+	{
+		get => _isOpened && (Panel is null || Panel.Class.Contains("enabled"));
+		set
+		{
+			_isOpened = value;
+
+			if(Panel is not null)
+				Panel.SetClass("enabled", value);
+		}
+	}
+
+	[Property] protected string MainMenuScene { get; set; } = "scenes/mainmenu.scene";
+
+
+	protected void Leave()
+	{
+		if(!Game.ActiveScene.LoadFromFile(MainMenuScene))
+			throw new Exception($"Couldn't load main menu scene {MainMenuScene}");
+	}
+
+	protected override void OnAwake()
+	{
+		if(Instance.IsValid() && Instance != this)
+		{
+			Log.Warning($"Scene {Scene} has to many {nameof(InGameMenu)}, destroying...");
+			Destroy();
+			return;
+		}
+
+		Instance = this;
+	}
+
+	protected override void OnUpdate()
+	{
+		if(Input.EscapePressed)
+			IsOpened = !IsOpened;
+	}
+}

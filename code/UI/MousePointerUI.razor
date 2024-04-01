@@ -1,11 +1,13 @@
+@using Minesweeper.UI.Menus;
 @using Sandbox;
 @using Sandbox.UI;
+@using System;
 @using System.Linq;
 
 @inherits PanelComponent
 @namespace Minesweeper.UI
 
-<root style="left:@(100f * MousePosition.x / Screen.Size.x)%; top:@(100f * MousePosition.y / Screen.Size.y)%;">
+<root style="left:@(100f * MousePosition.x / Screen.Size.x)%; top:@(100f * MousePosition.y / Screen.Size.y)%;" class=@(IsShowing ? "enabled" : "" )>
 	<div class="image"></div>
 </root>
 
@@ -13,6 +15,7 @@
 {
 	public static Vector2 MousePosition { get; private set; }
 
+	public bool IsShowing => !InGameMenu.Instance.IsValid() || !InGameMenu.Instance.IsOpened;
 
 	protected override void OnEnabled()
 	{
@@ -37,5 +40,5 @@
 		MousePosition = (MousePosition + Mouse.Delta).Clamp(Vector2.Zero, Screen.Size - 1);
 	}
 
-	protected override int BuildHash() => MousePosition.GetHashCode();
+	protected override int BuildHash() => HashCode.Combine(MousePosition.GetHashCode(), IsShowing);
 }

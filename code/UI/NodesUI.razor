@@ -22,7 +22,7 @@
 				var position = new Vector2IntB(x, y);
 				var node = World.GetNode(position);
 
-				if(node is null || node.State != NodeState.Opened)
+				if(!node.IsValid() || node.State != NodeState.Opened)
 					continue;
 
 				if(node is SafeNode safeNode)

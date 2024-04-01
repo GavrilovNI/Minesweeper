@@ -2,6 +2,11 @@ MousePointerUI {
 	position: absolute;
 	width: 5vh;
 	height: 5vh;
+	opacity: 0;
+
+	&.enabled {
+		opacity: 1;
+	}
 
 	.image {
 		position: relative;

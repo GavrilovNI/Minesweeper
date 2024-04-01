@@ -396,7 +396,30 @@
             "prefab": "prefabs/player.prefab"
           },
           "SpawnPoints": [],
-          "StartServer": true
+          "StartServer": false
+        }
+      ]
+    },
+    {
+      "__guid": "c5a85230-a86b-409c-9327-68cedab464a6",
+      "Name": "Screen",
+      "Position": "-587.8228,18.74896,117.5323",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "ScreenPanel",
+          "__guid": "7bcbd4a5-fde7-40bd-9ebe-d722cd0a9523",
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 100
+        },
+        {
+          "__type": "InGameMenu",
+          "__guid": "c549d426-1639-4ac6-826b-693d0ff62f4f",
+          "IsOpened": false,
+          "MainMenuScene": "scenes/mainmenu.scene"
         }
       ]
     }
@@ -424,7 +447,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-04-01T04:52:15.3523523\u002B02:00",
+  "LastSaved": "2024-04-01T08:43:33.611867\u002B02:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": []

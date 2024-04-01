@@ -1,0 +1,156 @@
+@using Sandbox;
+@using Sandbox.UI;
+@using Sandbox.Network;
+@using System;
+@using System.Threading.Tasks;
+@using System.Collections.Generic;
+
+@inherits PanelComponent
+@namespace Minesweeper.UI.Menus
+
+<root>
+	<div class="main">
+		<div class="left">
+			<AdaptiveLabel class="Title">Minesweeper</AdaptiveLabel>
+			<div class="buttons">
+				<div class="button" onclick="@(CreateLobby)">
+					<AdaptiveLabel class="label">Create lobby</AdaptiveLabel>
+				</div>
+				<div class="button disabled">
+					<AdaptiveLabel class="label">Settings</AdaptiveLabel>
+				</div>
+				<div class="button" onclick="@(Quit)">
+					<AdaptiveLabel class="label">Quit</AdaptiveLabel>
+				</div>
+			</div>
+		</div>
+		<div class="center-gap"></div>
+		<div class="right">
+			<div class="right-container">
+				<AdaptiveLabel class="info">Lobbies:</AdaptiveLabel>
+				<div class="lobbies-container">
+					@if(Lobbies.Count == 0)
+					{
+						<AdaptiveLabel class="no-lobby-message">No lobbies were found.</AdaptiveLabel>
+						<AdaptiveLabel class="no-lobby-message">Create your own!</AdaptiveLabel>
+					}
+					<div class="lobbies">
+						@foreach(var lobbyInformation in Lobbies)
+						{
+							<div class="lobby">
+								<div class="name-container">
+									<AdaptiveLabel class="name">@lobbyInformation.Name</AdaptiveLabel>
+								</div>
+								<AdaptiveLabel class="members-count">@($"{lobbyInformation.Members}/{lobbyInformation.MaxMembers}")</AdaptiveLabel>
+								<div class="join-button-container">
+									<div class="join-button button" onclick="@(() => JoinLobby(lobbyInformation))">
+										<AdaptiveLabel class="label">Join</AdaptiveLabel>
+									</div>
+								</div>
+							</div>
+						}
+					</div>
+				</div>
+				<div class="refreshing">
+					@if(UpdatingLobbies)
+					{
+						<i class="refreshing-icon">autorenew</i>
+					}
+					<div class="refresh-button button" onclick="@(() => {Lobbies.Clear(); _ = UpdateLobbies();})">
+						<AdaptiveLabel class="label">Refresh</AdaptiveLabel>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</root>
+
+@code
+{
+	[Property] protected string GameScene { get; set; } = "scenes/main.scene";
+	[Property] protected string ErrorScene { get; set; } = "scenes/mainmenu.scene";
+	[Property] public float LobbiesAutoUpdateTime = 5f;
+
+	protected TimeUntil TimeUntilLobbiesUpdate = 0;
+	protected TimeUntil TimeS = 0;
+	protected List<LobbyInformation> Lobbies = new();
+
+	protected bool UpdatingLobbies = false;
+
+	protected bool IsJoiningLobby = false;
+
+	protected override void OnStart()
+	{
+		TimeUntilLobbiesUpdate = 0f;
+	}
+
+	protected override void OnUpdate()
+	{
+		if(TimeUntilLobbiesUpdate)
+			UpdateLobbies();
+	}
+
+	[Button("Update lobbies", "refresh")]
+	protected void UpdateLobbiesButton() => _ = UpdateLobbies();
+
+	protected virtual async Task UpdateLobbies()
+	{
+		if (UpdatingLobbies)
+			return;
+
+		TimeUntilLobbiesUpdate = LobbiesAutoUpdateTime;
+		UpdatingLobbies = true;
+		Lobbies = await GameNetworkSystem.QueryLobbies();
+		UpdatingLobbies = false;
+	}
+
+	protected virtual void Quit()
+	{
+		Game.Close();
+	}
+
+	protected virtual void CreateLobby()
+	{
+		if (IsJoiningLobby)
+			return;
+
+		IsJoiningLobby = true;
+		var sceneLoaded = Game.ActiveScene.LoadFromFile(GameScene);
+		if(!sceneLoaded)
+		{
+			LoadErrorScene($"Couldn't load game scene {GameScene}");
+			IsJoiningLobby = false;
+			return;
+		}
+		LoadingScreen.Title = "Creating Lobby";
+		GameNetworkSystem.CreateLobby();
+		IsJoiningLobby = false;
+	}
+
+	protected virtual async Task JoinLobby(LobbyInformation lobbyInformation)
+	{
+		IsJoiningLobby = true;
+		LoadingScreen.Title = $"Joining Lobby {lobbyInformation.Name}";
+		bool joined = await GameNetworkSystem.TryConnectSteamId(lobbyInformation.LobbyId);
+		IsJoiningLobby = false;
+
+		if(!joined)
+			LoadErrorScene($"Couldn't connect to {lobbyInformation}");
+	}
+
+	protected virtual void LoadErrorScene(string message)
+	{
+		Log.Warning(message);
+		var sceneLoaded = Game.ActiveScene.LoadFromFile(ErrorScene);
+		if(!sceneLoaded)
+			throw new Exception($"Couldn't load error scene {ErrorScene}");
+	}
+
+	protected override int BuildHash()
+	{
+		int result = 0;
+		foreach (var lobby in Lobbies)
+			result = HashCode.Combine(result, lobby.GetHashCode());
+		return Time.Now.GetHashCode();// result;
+	}
+}
