@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using Minesweeper.Networking;
+using Sandbox;
 
 namespace Minesweeper.Nodes;
 
@@ -27,11 +28,20 @@ public class NodeBlocker : Component
             if(!node.IsValid())
                 return;
 
-            if(node.State == NodeState.Blocked)
-                node.SetState(NodeState.Closed);
-            else if(node.State == NodeState.Closed)
-                node.SetState(NodeState.Blocked);
-
+            SwitchNodeBlocking(node);
         }
+    }
+
+    [Broadcast(NetPermission.OwnerOnly)]
+    protected virtual void SwitchNodeBlocking(NetComponent nodeComponent)
+    {
+        var node = nodeComponent.GetComponent<Node>();
+        if(!node.IsValid() || node.IsProxy)
+            return;
+
+        if(node.State == NodeState.Blocked)
+            node.SetState(NodeState.Closed);
+        else if(node.State == NodeState.Closed)
+            node.SetState(NodeState.Blocked);
     }
 }

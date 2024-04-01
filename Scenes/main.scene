@@ -25,7 +25,7 @@
       "__guid": "8fed4404-8b27-41f8-83e3-0964f8820e39",
       "Name": "World",
       "Enabled": true,
-      "NetworkMode": 2,
+      "NetworkMode": 1,
       "Components": [
         {
           "__type": "World",
@@ -146,7 +146,7 @@
       "__guid": "411c587e-81ef-4f10-b7ae-f73a65e49769",
       "Name": "GameController",
       "Enabled": true,
-      "NetworkMode": 2,
+      "NetworkMode": 1,
       "Components": [
         {
           "__type": "GameController",

@@ -9,8 +9,12 @@ public class NodesOpener : Component, Component.ITriggerListener
 
     public void OnTriggerEnter(Collider other)
     {
-        if(!other.Components.Get<Player>().IsValid() || Node is null)
+        if(IsProxy)
             return;
+
+        if(!other.Components.Get<Player>().IsValid() || !Node.IsValid())
+            return;
+
         if(Node.State == NodeState.Closed)
             Node.SetState(NodeState.Opened);
     }

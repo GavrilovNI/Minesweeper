@@ -1,5 +1,4 @@
 ﻿using Minesweeper.Mth;
-using Minesweeper.Nodes;
 using Minesweeper.Players;
 using Sandbox;
 using System;
@@ -58,6 +57,9 @@ public class GameController : Component
 
     protected override void OnStart()
     {
+        if(IsProxy)
+            return;
+
         SetState(GameState.NotStarted);
         _ = StartGame();
     }
@@ -76,6 +78,9 @@ public class GameController : Component
 
     protected override void OnUpdate()
     {
+        if(IsProxy)
+            return;
+
         if(Restart)
         {
             Restart = false;

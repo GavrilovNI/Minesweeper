@@ -1,12 +1,11 @@
 ﻿using Minesweeper.Nodes;
 using Minesweeper.Mth;
 using System;
-using System.Collections.Generic;
 using Sandbox;
 using System.Linq;
-using Sandbox.UI;
 using System.Threading.Tasks;
 using System.Threading;
+using Minesweeper.Networking;
 
 namespace Minesweeper;
 
@@ -27,12 +26,14 @@ public class World : Component
     [Property] protected int OpenedNodesCount { get; private set; } = 0;
     [Property] protected int SafeNodesCount { get; private set; } = 0;
 
-    protected readonly Dictionary<Vector2IntB, Node> Nodes = new();
+    [Sync] protected NetDictionary<Vector2IntB, NetComponent> Nodes { get; private set; } = new();
 
-    protected CancellationTokenSource CancellationTokenSource { get; set; }
+    protected CancellationTokenSource CancellationTokenSource { get; set; } = null!;
 
     public void Clear()
     {
+        NetworkAuthorityException.ThrowIfProxy(this);
+
         foreach(var position in Nodes.Keys.ToList())
             RemoveNode(position, false);
 
@@ -59,6 +60,8 @@ public class World : Component
 
     protected virtual void NotifyNeighborsAboutUpdate(Vector2IntB position)
     {
+        NetworkAuthorityException.ThrowIfProxy(this);
+
         foreach(var direction in Enum.GetValues<Direction>())
         {
             var neighborNode = GetNode(position + direction.ToVector());
@@ -68,6 +71,8 @@ public class World : Component
 
     protected virtual void ChangeOrAddNode(Node node, bool notifyNeighbors = true)
     {
+        NetworkAuthorityException.ThrowIfProxy(this);
+
         var position = node.Position;
         RemoveNode(position, false);
 
@@ -87,11 +92,15 @@ public class World : Component
 
     protected virtual bool RemoveNode(Vector2IntB position, bool notifyNeighbors = true)
     {
-        bool removed = Nodes.TryGetValue(position, out var currentNode);
+        NetworkAuthorityException.ThrowIfProxy(this);
+
+        bool removed = Nodes.TryGetValue(position, out var currentNetNode);
         if(removed)
         {
+            var currentNode = currentNetNode.GetComponent<Node>()!;
+
             Nodes.Remove(position);
-            currentNode!.StateChanged -= OnNodeStateChanged;
+            currentNode.StateChanged -= OnNodeStateChanged;
 
             if(currentNode.State == NodeState.Opened)
                 OpenedNodesCount--;
@@ -111,6 +120,8 @@ public class World : Component
 
     protected virtual Node SpawnRandomNode(Vector2IntB position, bool enable = true)
     {
+        NetworkAuthorityException.ThrowIfProxy(this);
+
         float random = Game.Random.Float();
         var prefab = random < BombChance ? BombNodePrefab : SafeNodePrefab;
 
@@ -119,6 +130,8 @@ public class World : Component
 
     public Transform GetNodeWorldTransform(Vector2IntB nodePosition)
     {
+        NetworkAuthorityException.ThrowIfProxy(this);
+
         var localPosition = nodePosition * (NodeSize * NodeScale);
         var transform = new Transform(localPosition, Rotation.Identity, NodeScale);
         transform = Transform.Local.ToWorld(transform);
@@ -127,6 +140,8 @@ public class World : Component
 
     protected virtual Node SpawnNode(GameObject nodePrefab, Vector2IntB position, bool enable = true)
     {
+        NetworkAuthorityException.ThrowIfProxy(this);
+
         var transform = GetNodeWorldTransform(position);
         var gameobject = nodePrefab.Clone(transform, NodesParent, false, $"Node {position}");
 
@@ -136,11 +151,14 @@ public class World : Component
 
         node!.Inititialize(this, position);
         gameobject.Enabled = enable;
+        node.GameObject.NetworkSpawn();
         return node;
     }
 
     public virtual async Task SpawnNodes()
     {
+        NetworkAuthorityException.ThrowIfProxy(this);
+
         var token = CancellationTokenSource.Token;
 
         Clear();
@@ -160,7 +178,7 @@ public class World : Component
         }
 
         foreach(var (_, node) in Nodes)
-            node.GameObject.Enabled = true;
+            node.GetComponent<Node>()!.GameObject.Enabled = true;
     }
 
     public bool HasNode(Vector2IntB position) => Nodes.ContainsKey(position);
@@ -168,6 +186,8 @@ public class World : Component
 
     protected virtual void OnNodeStateChanged(Node node, NodeState oldState, NodeState newState)
     {
+        NetworkAuthorityException.ThrowIfProxy(this);
+
         var realNode = GetNode(node.Position);
         bool isMineNode = realNode is not null && realNode == node;
         if(!isMineNode)
@@ -210,7 +230,12 @@ public class World : Component
         OpenedAllSafeNodes?.Invoke();
     }
 
-    public Node? GetNode(Vector2IntB position) => Nodes!.GetValueOrDefault(position, null);
+    public Node? GetNode(Vector2IntB position)
+    {
+        if(Nodes.TryGetValue(position, out var nodeComponent))
+            return nodeComponent.GetComponent<Node>();
+        return null;
+    }
 
     public override int GetHashCode()
     {
